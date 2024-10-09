@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "it.hurts.octostudios.perception.common.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "LevelMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "ClientLevelMixin",
+    "GameRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
