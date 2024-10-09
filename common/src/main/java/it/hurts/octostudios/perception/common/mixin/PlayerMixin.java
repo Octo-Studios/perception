@@ -16,6 +16,11 @@ public class PlayerMixin {
     @Unique
     private static final UUID perception$UUID = UUID.fromString("dbf928a5-6efe-43ea-acfd-3e0d2d6eaead");
 
+    @Unique
+    private float perception$getPlayerMotion(Player player) {
+        return (float) (player.getDeltaMovement().multiply(0.25F, 1F, 0.25F).length() * (player.getDeltaMovement().y() > 0 ? 1F : -1F));
+    }
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void onPlayerTick(CallbackInfo info) {
         var player = (Player) (Object) this;
@@ -23,18 +28,17 @@ public class PlayerMixin {
         if (!player.level().isClientSide())
             return;
 
-        var minFallDistance = 1F;
-        var maxFallDistance = 20F;
+        var minMotion = 0.25F;
 
-        if (player.fallDistance > minFallDistance && !ShakeManager.SHAKES.containsKey(perception$UUID))
+        if (Math.abs(perception$getPlayerMotion(player)) > minMotion && !ShakeManager.SHAKES.containsKey(perception$UUID))
             ShakeManager.add(Shake.builder(player)
-                    .speed(() -> 5F + Math.min(maxFallDistance, player.fallDistance - minFallDistance) * 0.1F)
-                    .amplitude(() -> Math.min(maxFallDistance, player.fallDistance - minFallDistance) * 0.015F)
-                    .removeCondition(() -> player.fallDistance < minFallDistance)
+                    .amplitude(() -> Math.abs(perception$getPlayerMotion(player)) * (player.isFallFlying() ? 0.05F : 0.085F) * (perception$getPlayerMotion(player) > 0 ? 0.65F : 1F))
+                    .removeCondition(() -> Math.abs(perception$getPlayerMotion(player)) < minMotion)
                     .duration(Integer.MAX_VALUE)
                     .uuid(perception$UUID)
                     .fadeOutTime(0)
                     .radius(1F)
+                    .speed(5F)
                     .build());
     }
 }
