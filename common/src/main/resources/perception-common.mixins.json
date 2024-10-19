@@ -4,6 +4,7 @@
   "package": "it.hurts.octostudios.perception.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "TallGrassBlockMixin",
     "LevelMixin",
     "PlayerMixin"
   ],
