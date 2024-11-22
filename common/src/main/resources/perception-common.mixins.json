@@ -4,13 +4,20 @@
   "package": "it.hurts.octostudios.perception.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "TallGrassBlockMixin",
     "LevelMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "TallGrassBlockMixin",
+    "trails.entity.ArrowMixin",
+    "trails.entity.EntityMixin",
+    "trails.entity.FireworkRocketEntityMixin",
+    "trails.entity.ItemEntityMixin",
+    "trails.entity.ThrownPotionMixin"
   ],
   "client": [
     "ClientLevelMixin",
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "trails.particle.ParticleEngineMixin",
+    "trails.particle.ParticleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
