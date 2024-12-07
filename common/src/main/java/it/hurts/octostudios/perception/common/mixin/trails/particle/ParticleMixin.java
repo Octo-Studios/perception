@@ -61,7 +61,8 @@ public class ParticleMixin implements ITrailConfigProvider {
 
     @Override
     public boolean isTrailGrowing() {
-        return new Vec3(x, y, z).distanceTo(new Vec3(xo, yo, zo)) >= getTrailConfigData().getMinSpeed();
+//        return new Vec3(x, y, z).distanceTo(new Vec3(xo, yo, zo)) >= getTrailConfigData().getMinSpeed();
+        return true;
     }
 
     @Override
