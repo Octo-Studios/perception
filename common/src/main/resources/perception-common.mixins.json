@@ -9,6 +9,7 @@
     "TallGrassBlockMixin",
     "trails.entity.ArrowMixin",
     "trails.entity.EntityMixin",
+    "trails.entity.ExperienceOrbMixin",
     "trails.entity.FireworkRocketEntityMixin",
     "trails.entity.ItemEntityMixin",
     "trails.entity.ThrownPotionMixin"
