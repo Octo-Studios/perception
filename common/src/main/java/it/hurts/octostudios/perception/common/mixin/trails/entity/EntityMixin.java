@@ -62,9 +62,22 @@ public abstract class EntityMixin implements ITrailConfigProvider {
     @Override
     public Vec3 getTrailPosition(float partialTicks) {
         var entity = (Entity) (Object) this;
-        var offset = getTrailConfigData().getPositionOffset();
 
-        return (entity.tickCount > 1 ? entity.getPosition(partialTicks) : entity.position()).add(offset.x(), offset.y(), offset.z());
+        var data = getTrailConfigData();
+        var offset = data.getPositionOffset();
+
+        var entityPosition = (entity.tickCount > 1 ? entity.getPosition(partialTicks) : entity.position()).add(entity.getDeltaMovement().normalize().scale(-data.getMotionShift())).add(offset.x(), offset.y(), offset.z());
+
+        var player = entity.getCommandSenderWorld().getNearestPlayer(entity, getTrailRenderDistance());
+
+        if (player == null)
+            return entityPosition;
+
+        var playerPosition = player.getEyePosition(partialTicks);
+
+        entityPosition = entityPosition.add(entityPosition.subtract(playerPosition).normalize().scale(data.getBackwardShift()));
+
+        return entityPosition;
     }
 
     @Override

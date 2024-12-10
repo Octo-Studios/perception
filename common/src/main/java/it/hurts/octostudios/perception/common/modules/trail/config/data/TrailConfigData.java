@@ -24,4 +24,8 @@ public class TrailConfigData {
     private String fadeOutColor = "FFFFFFFF";
     @Prop(comment = "Position offset of the trail relative to the object in XYZ")
     private Vector3f positionOffset = new Vector3f(0F, 0F, 0F);
+    @Prop(comment = "Position offset of the trail in the opposite direction from the player's standing point")
+    private float backwardShift = 0F;
+    @Prop(comment = "Position offset of the trail in the opposite direction from the object's movement")
+    private float motionShift = 0.25F;
 }

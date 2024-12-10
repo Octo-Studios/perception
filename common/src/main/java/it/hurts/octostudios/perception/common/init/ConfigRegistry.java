@@ -16,6 +16,6 @@ public class ConfigRegistry {
     }
 
     private static void registerModule(String path, OctoConfig config) {
-        ConfigManager.registerConfig(Perception.MODID + "-beta" + "/modules/" + path, config);
+        ConfigManager.registerConfig(Perception.MODID + "-v1" + "/modules/" + path, config);
     }
 }
