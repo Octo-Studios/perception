@@ -4,6 +4,7 @@ import it.hurts.octostudios.octolib.modules.particles.OctoRenderManager;
 import it.hurts.octostudios.perception.common.init.ConfigRegistry;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
 import it.hurts.octostudios.perception.common.modules.trail.misc.ITrailConfigProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -68,7 +69,7 @@ public abstract class EntityMixin implements ITrailConfigProvider {
 
         var entityPosition = (entity.tickCount > 1 ? entity.getPosition(partialTicks) : entity.position()).add(entity.getDeltaMovement().normalize().scale(-data.getMotionShift())).add(offset.x(), offset.y(), offset.z());
 
-        var player = entity.getCommandSenderWorld().getNearestPlayer(entity, getTrailRenderDistance());
+        var player = Minecraft.getInstance().player;
 
         if (player == null)
             return entityPosition;
