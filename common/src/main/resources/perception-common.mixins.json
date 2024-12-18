@@ -6,7 +6,6 @@
   "mixins": [
     "LevelMixin",
     "PlayerMixin",
-    "TallGrassBlockMixin",
     "trails.entity.ArrowMixin",
     "trails.entity.EntityMixin",
     "trails.entity.ExperienceOrbMixin",
@@ -14,6 +13,7 @@
     "trails.entity.ThrownPotionMixin"
   ],
   "client": [
+    "CameraMixin",
     "ClientLevelMixin",
     "GameRendererMixin",
     "trails.particle.ParticleEngineMixin",

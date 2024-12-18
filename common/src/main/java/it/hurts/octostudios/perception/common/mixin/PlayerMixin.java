@@ -28,11 +28,11 @@ public class PlayerMixin {
         if (!player.level().isClientSide())
             return;
 
-        var minMotion = 0.25F;
+        var minMotion = 0.5F;
 
         if (Math.abs(perception$getPlayerMotion(player)) > minMotion && !ShakeManager.SHAKES.containsKey(perception$UUID))
             ShakeManager.add(Shake.builder(player)
-                    .amplitude(() -> Math.abs(perception$getPlayerMotion(player)) * (player.isFallFlying() ? 0.05F : 0.085F) * (perception$getPlayerMotion(player) > 0 ? 0.65F : 1F))
+                    .amplitude(() -> Math.abs(perception$getPlayerMotion(player)) * (player.isFallFlying() ? 0.035F : 0.05F) * (perception$getPlayerMotion(player) > 0 ? 0.5F : 1F))
                     .removeCondition(() -> Math.abs(perception$getPlayerMotion(player)) < minMotion)
                     .duration(Integer.MAX_VALUE)
                     .uuid(perception$UUID)

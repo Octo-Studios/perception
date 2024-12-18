@@ -45,7 +45,11 @@ public class Shake {
 
     private final Vec3 frequency = new Vec3(0.8F + RANDOM.nextFloat() * 0.4F, 0.8F + RANDOM.nextFloat() * 0.4F, 0.8F + RANDOM.nextFloat() * 0.4F);
 
-    private final Vector3f lastShakeOffset = new Vector3f();
+    private final Vector3f lastTickOffset = new Vector3f();
+    private final Vector3f currentTickOffset = new Vector3f();
+
+    private final Vector3f lastTickRotation = new Vector3f();
+    private final Vector3f currentTickRotation = new Vector3f();
 
     private int elapsedTime;
 
@@ -69,45 +73,70 @@ public class Shake {
         return removeCondition == null ? elapsedTime >= getDuration() : getRemoveCondition();
     }
 
-    public void update() {
+    public void update(Player player) {
         elapsedTime++;
-    }
 
-    public Vector3f getShakeOffset(Player player, float partialTicks) {
+        lastTickOffset.set(currentTickOffset);
+        lastTickRotation.set(currentTickRotation);
+
         float amplitude = getCurrentAmplitude(player);
         float speed = getCurrentSpeed(player);
 
-        if (amplitude <= 0F || speed <= 0F)
-            return new Vector3f();
+        float currentTime = elapsedTime / 20F;
 
-        float currentTime = (elapsedTime + partialTicks) / 20F;
+        if (amplitude > 0F && speed > 0F) {
+            currentTickOffset.set(computeOffsetForTick(player, amplitude, speed, currentTime));
+            currentTickRotation.set(computeRotationForTick(player, amplitude, speed, currentTime));
+        } else {
+            currentTickOffset.set(0, 0, 0);
+            lastTickOffset.set(0, 0, 0);
 
-        float shakeX = (float) Math.cos(2 * Math.PI * speed * frequency.x() * currentTime);
-        float shakeY = (float) Math.cos(2 * Math.PI * speed * frequency.y() * currentTime);
-        float shakeZ = (float) Math.cos(2 * Math.PI * speed * frequency.z() * currentTime);
+            currentTickRotation.set(0, 0, 0);
+            lastTickRotation.set(0, 0, 0);
+        }
+    }
 
-        Vec3 direction = player.getEyePosition(partialTicks).subtract(source.getPos()).normalize();
+    public Vector3f getShakeOffset(Player player, float partialTicks) {
+        float x = Mth.lerp(partialTicks, lastTickOffset.x(), currentTickOffset.x());
+        float y = Mth.lerp(partialTicks, lastTickOffset.y(), currentTickOffset.y());
+        float z = Mth.lerp(partialTicks, lastTickOffset.z(), currentTickOffset.z());
 
-        float offsetX = (float) (direction.x * shakeX * amplitude);
-        float offsetY = (float) (direction.y * shakeY * amplitude);
-        float offsetZ = (float) (direction.z * shakeZ * amplitude);
+        return new Vector3f(x, y, z);
+    }
 
-        float smoothingFactor = 0F;
+    public Vector3f getShakeRotation(Player player, float partialTicks) {
+        float x = Mth.lerp(partialTicks, lastTickRotation.x(), currentTickRotation.x());
+        float y = Mth.lerp(partialTicks, lastTickRotation.y(), currentTickRotation.y());
+        float z = Mth.lerp(partialTicks, lastTickRotation.z(), currentTickRotation.z());
 
-        offsetX = Mth.lerp(smoothingFactor + partialTicks, lastShakeOffset.x(), offsetX);
-        offsetY = Mth.lerp(smoothingFactor + partialTicks, lastShakeOffset.y(), offsetY);
-        offsetZ = Mth.lerp(smoothingFactor + partialTicks, lastShakeOffset.z(), offsetZ);
+        return new Vector3f(x, y, z);
+    }
 
-        lastShakeOffset.set(offsetX, offsetY, offsetZ);
+    private Vector3f computeOffsetForTick(Player player, float amplitude, float speed, float currentTime) {
+        double wave = Math.sin(2 * Math.PI * speed * currentTime);
+        Vec3 direction = player.position().add(0, player.getEyeHeight(), 0)
+                .subtract(source.getPos())
+                .normalize();
+
+        float offsetX = (float) (direction.x * amplitude * wave);
+        float offsetY = (float) (direction.y * amplitude * wave);
+        float offsetZ = (float) (direction.z * amplitude * wave);
 
         return new Vector3f(offsetX, offsetY, offsetZ);
+    }
+
+    private Vector3f computeRotationForTick(Player player, float amplitude, float speed, float currentTime) {
+        float angleX = (float) Math.sin(2 * Math.PI * speed * frequency.x() * currentTime) * amplitude;
+        float angleY = (float) Math.sin(2 * Math.PI * speed * frequency.y() * currentTime) * amplitude;
+        float angleZ = (float) Math.sin(2 * Math.PI * speed * frequency.z() * currentTime) * amplitude;
+
+        return new Vector3f(angleX, angleY, angleZ);
     }
 
     private float getCurrentAmplitude(Player player) {
         var distance = player.position().distanceTo(source.getPos());
 
         var duration = getDuration();
-
         var radius = getRadius();
 
         var fadeInTime = getFadeInTime();

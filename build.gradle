@@ -23,6 +23,10 @@ subprojects {
     }
 
     repositories {
+        mavenLocal()
+        flatDir {
+            dirs 'libs'
+        }
         maven {
             name = "OctoStudios"
             url = uri("https://maven.octo-studios.com/releases")
@@ -45,6 +49,26 @@ subprojects {
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
 
         implementation 'org.jetbrains:annotations:20.1.0'
+
+        if (file("libs").isDirectory()) {
+            file("libs").eachFile { file ->
+                def splitPos = file.name.lastIndexOf("-")
+
+                if (file.name != "desktop.ini") {
+                    println file.name
+
+                    def modartifact = file.name.substring(0, splitPos)
+                    def modversion = file.name.substring(splitPos + 1, file.name.length() - 4)
+                    def modreference = "lib:$modartifact:$modversion"
+
+                    dependencies {
+                        implementation (project.dependencies.create(modreference) {
+                            transitive = false
+                        })
+                    }
+                }
+            }
+        } else file("libs").mkdir()
     }
 
     java {

@@ -22,8 +22,8 @@ public class LevelMixin {
     private void onExplode(Entity pSource, DamageSource pDamageSource, ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
         ShakeManager.add(Shake.builder(new Vec3(pX, pY, pZ))
                 .radius(7F + pRadius * 3F)
-                .amplitude(0.5F + (pRadius * 0.35F))
-                .speed(2F)
+                .amplitude(0.5F + (pRadius * 0.15F))
+                .speed(7F)
                 .duration(10)
                 .build());
     }

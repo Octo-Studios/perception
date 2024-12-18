@@ -6,7 +6,6 @@
   "mixins": [
   ],
   "client": [
-    "TerrainRenderContextMixin"
   ],
   "injectors": {
     "defaultRequire": 1
