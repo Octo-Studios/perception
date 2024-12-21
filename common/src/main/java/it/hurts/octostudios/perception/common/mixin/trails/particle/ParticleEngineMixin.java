@@ -16,12 +16,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ParticleEngineMixin {
     @Inject(method = "createParticle", at = @At("RETURN"))
     public void createParticle(ParticleOptions options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, CallbackInfoReturnable<Particle> cir) {
-        var particle = cir.getReturnValue();
+        var id = BuiltInRegistries.PARTICLE_TYPE.getKey(options.getType());
 
-        if (!(particle instanceof ITrailConfigProvider provider))
+        if (id == null || !(cir.getReturnValue() instanceof ITrailConfigProvider provider))
             return;
 
-        var trail = ConfigRegistry.TRAIL_CONFIG.getParticleTrails().getOrDefault(BuiltInRegistries.PARTICLE_TYPE.getKey(options.getType()).toString(), null);
+        var trail = ConfigRegistry.TRAIL_CONFIG.getParticleTrails().getOrDefault(id.toString(), null);
 
         if (trail != null) {
             provider.setTrailConfigData(trail);
