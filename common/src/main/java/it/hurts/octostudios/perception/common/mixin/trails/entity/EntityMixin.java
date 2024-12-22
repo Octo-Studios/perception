@@ -69,7 +69,7 @@ public abstract class EntityMixin implements ITrailConfigProvider {
 
         var entityPosition = (entity.tickCount > 1 ? entity.getPosition(partialTicks) : entity.position()).add(entity.getDeltaMovement().normalize().scale(-data.getMotionShift())).add(offset.x(), offset.y(), offset.z());
 
-        var player = Minecraft.getInstance().player;
+        var player = entity.getCommandSenderWorld().getNearestPlayer(entity, getTrailRenderDistance());;
 
         if (player == null)
             return entityPosition;
