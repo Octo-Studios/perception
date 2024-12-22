@@ -16,6 +16,7 @@
     "CameraMixin",
     "ClientLevelMixin",
     "GameRendererMixin",
+    "trails.entity.ClientLevelMixin",
     "trails.particle.ParticleEngineMixin",
     "trails.particle.ParticleMixin"
   ],
