@@ -13,6 +13,7 @@
     "trails.entity.ThrownPotionMixin"
   ],
   "client": [
+    "AbstractClientPlayerMixin",
     "CameraMixin",
     "ClientLevelMixin",
     "GameRendererMixin",
