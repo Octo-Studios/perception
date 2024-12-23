@@ -1,5 +1,6 @@
 package it.hurts.octostudios.perception.common.mixin;
 
+import it.hurts.octostudios.perception.common.init.ConfigRegistry;
 import it.hurts.octostudios.perception.common.modules.shake.Shake;
 import it.hurts.octostudios.perception.common.modules.shake.ShakeManager;
 import net.minecraft.world.entity.player.Player;
@@ -17,8 +18,10 @@ public class PlayerMixin {
     private static final UUID perception$UUID = UUID.fromString("dbf928a5-6efe-43ea-acfd-3e0d2d6eaead");
 
     @Unique
-    private float perception$getPlayerMotion(Player player) {
-        return (float) (player.getDeltaMovement().multiply(0.25F, 1F, 0.25F).length() * (player.getDeltaMovement().y() > 0 ? 1F : -1F));
+    private static float perception$getPlayerSpeed(Player player) {
+        var motion = player.getDeltaMovement();
+
+        return (float) Math.abs(motion.multiply(0.15F, motion.y() >= 0F ? 0.5F : 1F, 0.15F).length());
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
@@ -28,17 +31,27 @@ public class PlayerMixin {
         if (!player.level().isClientSide())
             return;
 
-        var minMotion = 0.5F;
+        var config = ConfigRegistry.SHAKE_CONFIG.getFallShakes();
 
-        if (Math.abs(perception$getPlayerMotion(player)) > minMotion && !ShakeManager.SHAKES.containsKey(perception$UUID))
+        var minSpeed = config.getMinSpeed();
+
+        var multiplier = 1F;
+
+        if (player.isFallFlying())
+            multiplier *= 0.2F;
+
+        if (perception$getPlayerSpeed(player) > minSpeed && !ShakeManager.SHAKES.containsKey(perception$UUID)) {
+            var intensity = multiplier * config.getIntensity();
+
             ShakeManager.add(Shake.builder(player)
-                    .amplitude(() -> Math.abs(perception$getPlayerMotion(player)) * (player.isFallFlying() ? 0.035F : 0.05F) * (perception$getPlayerMotion(player) > 0 ? 0.5F : 1F))
-                    .removeCondition(() -> Math.abs(perception$getPlayerMotion(player)) < minMotion)
+                    .amplitude(() -> (float) (Math.tanh(((Math.min(perception$getPlayerSpeed(player) - minSpeed, 0.75F) * 0.05F) + (player.fallDistance * 0.0005F))) * intensity))
+                    .speed(() -> (float) (4F + Math.log1p(((perception$getPlayerSpeed(player) - minSpeed) * 0.0075F) + (player.fallDistance * 0.0005F)) * intensity))
+                    .removeCondition(() -> perception$getPlayerSpeed(player) < minSpeed)
                     .duration(Integer.MAX_VALUE)
                     .uuid(perception$UUID)
                     .fadeOutTime(0)
                     .radius(1F)
-                    .speed(5F)
                     .build());
+        }
     }
 }

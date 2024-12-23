@@ -2,6 +2,7 @@ package it.hurts.octostudios.perception.common.modules.shake.config;
 
 import it.hurts.octostudios.octolib.modules.config.annotations.Prop;
 import it.hurts.octostudios.octolib.modules.config.impl.OctoConfig;
+import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
 import lombok.Data;
 
@@ -10,6 +11,9 @@ import java.util.Map;
 
 @Data
 public class ShakeConfig implements OctoConfig {
+    @Prop(comment = "Options for configuring the screen shake effect during player falls.")
+    private FallShakeConfigData fallShakes = new FallShakeConfigData();
+
     @Prop(comment = "List of sound effects that trigger the screen shaking effect.")
     private Map<String, ShakeConfigData> soundShakes = new HashMap<>() {{
         put("minecraft:entity.ender_dragon.ambient", new ShakeConfigData(-1, 0.05F, 10, 60, 0, -1));
