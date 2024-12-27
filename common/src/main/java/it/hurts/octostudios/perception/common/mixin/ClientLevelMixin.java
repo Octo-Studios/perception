@@ -4,8 +4,14 @@ import it.hurts.octostudios.perception.common.init.ConfigRegistry;
 import it.hurts.octostudios.perception.common.modules.shake.Shake;
 import it.hurts.octostudios.perception.common.modules.shake.ShakeManager;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientLevelMixin {
     @Inject(method = "playSound", at = @At("HEAD"))
     public void onPlaySound(double pX, double pY, double pZ, SoundEvent pSoundEvent, SoundSource pSource, float pVolume, float pPitch, boolean pDistanceDelay, long pSeed, CallbackInfo ci) {
-        var id = pSoundEvent.getLocation().toString();
+        var id = pSoundEvent.location().toString();
 
         var data = ConfigRegistry.SHAKE_CONFIG.getSoundShakes().get(id);
 
