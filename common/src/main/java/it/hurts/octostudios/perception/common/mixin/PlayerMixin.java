@@ -33,7 +33,11 @@ public class PlayerMixin {
 
         var config = ConfigRegistry.SHAKE_CONFIG.getFallShakes();
 
+        var baseIntensity = config.getIntensity();
         var minSpeed = config.getMinSpeed();
+
+        if (baseIntensity <= 0F)
+            return;
 
         var multiplier = 1F;
 
@@ -41,7 +45,7 @@ public class PlayerMixin {
             multiplier *= 0.2F;
 
         if (perception$getPlayerSpeed(player) > minSpeed && !ShakeManager.SHAKES.containsKey(perception$UUID)) {
-            var intensity = multiplier * config.getIntensity();
+            var intensity = multiplier * baseIntensity;
 
             ShakeManager.add(Shake.builder(player)
                     .amplitude(() -> (float) (Math.tanh(((Math.min(perception$getPlayerSpeed(player) - minSpeed, 0.75F) * 0.05F) + (player.fallDistance * 0.0005F))) * intensity))
