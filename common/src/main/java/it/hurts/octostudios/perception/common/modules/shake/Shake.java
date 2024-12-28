@@ -26,9 +26,17 @@ public class Shake {
     @Builder.Default
     private Supplier<Float> radius;
     @Builder.Default
-    private Supplier<Float> amplitude;
+    private Supplier<Float> rotationAmplitude;
     @Builder.Default
-    private Supplier<Float> speed;
+    private Supplier<Float> offsetAmplitude;
+    @Builder.Default
+    private Supplier<Float> fovAmplitude;
+    @Builder.Default
+    private Supplier<Float> rotationSpeed;
+    @Builder.Default
+    private Supplier<Float> offsetSpeed;
+    @Builder.Default
+    private Supplier<Float> fovSpeed;
     @Builder.Default
     private Supplier<Integer> duration;
     @Builder.Default
@@ -79,20 +87,26 @@ public class Shake {
         lastTickOffset.set(currentTickOffset);
         lastTickRotation.set(currentTickRotation);
 
-        float amplitude = getCurrentAmplitude(player);
-        float speed = getCurrentSpeed(player);
-
         float currentTime = elapsedTime / 20F;
 
-        if (amplitude > 0F && speed > 0F) {
-            currentTickOffset.set(computeOffsetForTick(player, amplitude, speed, currentTime));
-            currentTickRotation.set(computeRotationForTick(player, amplitude, speed, currentTime));
-        } else {
-            currentTickOffset.set(0, 0, 0);
-            lastTickOffset.set(0, 0, 0);
+        var rotationAmplitude = getCumulativeRotationAmplitude(player);
+        var rotationSpeed = getCumulativeRotationSpeed(player);
 
+        if (rotationAmplitude > 0F && rotationSpeed > 0F)
+            currentTickRotation.set(computeRotationForTick(player, rotationAmplitude, rotationSpeed, currentTime));
+        else {
             currentTickRotation.set(0, 0, 0);
             lastTickRotation.set(0, 0, 0);
+        }
+
+        var offsetAmplitude = getCumulativeOffsetAmplitude(player);
+        var offsetSpeed = getCumulativeOffsetSpeed(player);
+
+        if (offsetAmplitude > 0F && offsetSpeed > 0F)
+            currentTickOffset.set(computeOffsetForTick(player, offsetAmplitude, offsetSpeed, currentTime));
+        else {
+            currentTickOffset.set(0, 0, 0);
+            lastTickOffset.set(0, 0, 0);
         }
     }
 
@@ -113,7 +127,7 @@ public class Shake {
     }
 
     public float getShakeFOV(Player player, float partialTicks) {
-        return getCurrentAmplitude(player);
+        return getCumulativeFovAmplitude(player);
     }
 
     private Vector3f computeOffsetForTick(Player player, float amplitude, float speed, float currentTime) {
@@ -143,7 +157,19 @@ public class Shake {
         return new Vector3f(angleX, angleY, angleZ);
     }
 
-    private float getCurrentAmplitude(Player player) {
+    public float getCumulativeRotationAmplitude(Player player) {
+        return getCumulativeAmplitude(player, getRotationAmplitude());
+    }
+
+    public float getCumulativeOffsetAmplitude(Player player) {
+        return getCumulativeAmplitude(player, getOffsetAmplitude());
+    }
+
+    public float getCumulativeFovAmplitude(Player player) {
+        return getCumulativeAmplitude(player, getFovAmplitude());
+    }
+
+    private float getCumulativeAmplitude(Player player, float amplitude) {
         var distance = player.position().distanceTo(source.getPos());
 
         var duration = getDuration();
@@ -166,10 +192,22 @@ public class Shake {
         else
             timeFactor = 1F;
 
-        return getAmplitude() * distanceFactor * timeFactor;
+        return amplitude * distanceFactor * timeFactor;
     }
 
-    private float getCurrentSpeed(Player player) {
+    public float getCumulativeRotationSpeed(Player player) {
+        return getCumulativeSpeed(player, getRotationSpeed());
+    }
+
+    public float getCumulativeOffsetSpeed(Player player) {
+        return getCumulativeSpeed(player, getOffsetSpeed());
+    }
+
+    public float getCumulativeFovSpeed(Player player) {
+        return getCumulativeSpeed(player, getFovSpeed());
+    }
+
+    private float getCumulativeSpeed(Player player, float speed) {
         var distance = player.position().distanceTo(source.getPos());
 
         var radius = getRadius();
@@ -179,19 +217,35 @@ public class Shake {
 
         var distanceFactor = (float) (1F - (distance / radius));
 
-        return getSpeed() * distanceFactor;
+        return speed * distanceFactor;
     }
 
     public float getRadius() {
         return radius.get();
     }
 
-    public float getAmplitude() {
-        return amplitude.get();
+    public float getRotationAmplitude() {
+        return rotationAmplitude.get();
     }
 
-    public float getSpeed() {
-        return speed.get();
+    public float getOffsetAmplitude() {
+        return offsetAmplitude.get();
+    }
+
+    public float getFovAmplitude() {
+        return fovAmplitude.get();
+    }
+
+    public float getRotationSpeed() {
+        return rotationSpeed.get();
+    }
+
+    public float getOffsetSpeed() {
+        return offsetSpeed.get();
+    }
+
+    public float getFovSpeed() {
+        return fovSpeed.get();
     }
 
     public int getDuration() {
@@ -212,15 +266,15 @@ public class Shake {
 
     public static class ShakeBuilder {
         private Supplier<Float> radius = () -> 10F;
-        private Supplier<Float> amplitude = () -> 1F;
-        private Supplier<Float> speed = () -> 5F;
+        private Supplier<Float> rotationAmplitude = () -> 1F;
+        private Supplier<Float> offsetAmplitude = () -> 1F;
+        private Supplier<Float> fovAmplitude = () -> 1F;
+        private Supplier<Float> rotationSpeed = () -> 5F;
+        private Supplier<Float> offsetSpeed = () -> 5F;
+        private Supplier<Float> fovSpeed = () -> 5F;
         private Supplier<Integer> duration = () -> 20;
         private Supplier<Integer> fadeInTime = () -> 0;
         private Supplier<Integer> fadeOutTime = () -> -1;
-
-        // ===================================================
-        // ==                  Lombok WTF?                  ==
-        // ===================================================
 
         public ShakeBuilder radius(Supplier<Float> radius) {
             this.radius = radius;
@@ -228,14 +282,62 @@ public class Shake {
             return this;
         }
 
+        public ShakeBuilder amplitude(Supplier<Float> rotationAmplitude, Supplier<Float> offsetAmplitude, Supplier<Float> fovAmplitude) {
+            this.rotationAmplitude = rotationAmplitude;
+            this.offsetAmplitude = offsetAmplitude;
+            this.fovAmplitude = fovAmplitude;
+
+            return this;
+        }
+
         public ShakeBuilder amplitude(Supplier<Float> amplitude) {
-            this.amplitude = amplitude;
+            return amplitude(amplitude, amplitude, amplitude);
+        }
+
+        public ShakeBuilder rotationAmplitude(Supplier<Float> amplitude) {
+            this.rotationAmplitude = amplitude;
+
+            return this;
+        }
+
+        public ShakeBuilder offsetAmplitude(Supplier<Float> amplitude) {
+            this.offsetAmplitude = amplitude;
+
+            return this;
+        }
+
+        public ShakeBuilder fovAmplitude(Supplier<Float> amplitude) {
+            this.fovAmplitude = amplitude;
+
+            return this;
+        }
+
+        public ShakeBuilder speed(Supplier<Float> rotationSpeed, Supplier<Float> offsetSpeed, Supplier<Float> fovSpeed) {
+            this.rotationSpeed = rotationSpeed;
+            this.offsetSpeed = offsetSpeed;
+            this.fovSpeed = fovSpeed;
 
             return this;
         }
 
         public ShakeBuilder speed(Supplier<Float> speed) {
-            this.speed = speed;
+            return speed(speed, speed, speed);
+        }
+
+        public ShakeBuilder rotationSpeed(Supplier<Float> speed) {
+            this.rotationSpeed = speed;
+
+            return this;
+        }
+
+        public ShakeBuilder offsetSpeed(Supplier<Float> speed) {
+            this.offsetSpeed = speed;
+
+            return this;
+        }
+
+        public ShakeBuilder fovSpeed(Supplier<Float> speed) {
+            this.fovSpeed = speed;
 
             return this;
         }
@@ -258,8 +360,6 @@ public class Shake {
             return this;
         }
 
-        // ===================================================
-
         private ShakeBuilder source(ShakeSource source) {
             this.source = source;
 
@@ -272,16 +372,44 @@ public class Shake {
             return this;
         }
 
-        public ShakeBuilder amplitude(float amplitude) {
-            this.amplitude = () -> amplitude;
+        public ShakeBuilder amplitude(float rotationAmplitude, float offsetAmplitude, float fovAmplitude) {
+            return amplitude(() -> rotationAmplitude, () -> offsetAmplitude, () -> fovAmplitude);
+        }
 
-            return this;
+        public ShakeBuilder amplitude(float amplitude) {
+            return amplitude(amplitude, amplitude, amplitude);
+        }
+
+        public ShakeBuilder rotationAmplitude(float amplitude) {
+            return rotationAmplitude(() -> amplitude);
+        }
+
+        public ShakeBuilder offsetAmplitude(float amplitude) {
+            return offsetAmplitude(() -> amplitude);
+        }
+
+        public ShakeBuilder fovAmplitude(float amplitude) {
+            return fovAmplitude(() -> amplitude);
+        }
+
+        public ShakeBuilder speed(float rotationSpeed, float offsetSpeed, float fovSpeed) {
+            return speed(() -> rotationSpeed, () -> offsetSpeed, () -> fovSpeed);
         }
 
         public ShakeBuilder speed(float speed) {
-            this.speed = () -> speed;
+            return speed(speed, speed, speed);
+        }
 
-            return this;
+        public ShakeBuilder rotationSpeed(float speed) {
+            return rotationSpeed(() -> speed);
+        }
+
+        public ShakeBuilder offsetSpeed(float speed) {
+            return offsetSpeed(() -> speed);
+        }
+
+        public ShakeBuilder fovSpeed(float speed) {
+            return fovSpeed(() -> speed);
         }
 
         public ShakeBuilder duration(int duration) {

@@ -31,8 +31,8 @@ public class ClientLevelMixin {
                 .radius(radius == -1 ? pSoundEvent.getRange(pVolume) : radius)
                 .fadeOutTime(fadeOutTime == -1 ? duration : fadeOutTime)
                 .fadeInTime(data.getFadeInTime())
-                .amplitude(data.getAmplitude())
-                .speed(data.getSpeed())
+                .amplitude(data.getRotationAmplitude(), data.getOffsetAmplitude(), data.getFovAmplitude())
+                .speed(data.getRotationSpeed(), data.getOffsetSpeed(), data.getFovSpeed())
                 .duration(duration)
                 .build());
     }
