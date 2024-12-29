@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
     @Inject(method = "playSound", at = @At("HEAD"))
-    public void onPlaySound(double pX, double pY, double pZ, SoundEvent pSoundEvent, SoundSource pSource, float pVolume, float pPitch, boolean pDistanceDelay, long pSeed, CallbackInfo ci) {
-        var id = pSoundEvent.getLocation().toString();
+    public void onPlaySound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay, long seed, CallbackInfo ci) {
+        var id = soundEvent.getLocation().toString();
 
         var data = ConfigRegistry.SHAKE_CONFIG.getSoundShakes().get(id);
 
@@ -27,13 +27,13 @@ public class ClientLevelMixin {
         var duration = data.getDuration();
         var fadeOutTime = data.getFadeOutTime();
 
-        ShakeManager.add(Shake.builder(new Vec3(pX, pY, pZ))
-                .radius(radius == -1 ? pSoundEvent.getRange(pVolume) : radius)
+        ShakeManager.add(Shake.builder(new Vec3(x, y, z))
+                .radius(radius == -1 ? soundEvent.getRange(volume) : radius)
                 .fadeOutTime(fadeOutTime == -1 ? duration : fadeOutTime)
-                .fadeInTime(data.getFadeInTime())
+                .fadeInTime((int) (data.getFadeInTime() / pitch))
                 .amplitude(data.getRotationAmplitude(), data.getOffsetAmplitude(), data.getFovAmplitude())
-                .speed(data.getRotationSpeed(), data.getOffsetSpeed(), data.getFovSpeed())
-                .duration(duration)
+                .speed(data.getRotationSpeed() * pitch, data.getOffsetSpeed() * pitch, data.getFovSpeed() * pitch)
+                .duration((int) (duration / pitch))
                 .build());
     }
 }
