@@ -72,5 +72,35 @@ public class ShakeConfig implements OctoConfig {
                 .speed(10F)
                 .duration(5)
                 .build());
+        put("minecraft:block.anvil.place", ShakeConfigData.builder()
+                .amplitude(0.15F)
+                .speed(10F)
+                .duration(5)
+                .build());
+        put("minecraft:block.anvil.land", ShakeConfigData.builder()
+                .amplitude(0.1F)
+                .speed(10F)
+                .duration(5)
+                .build());
+        put("minecraft:block.end_portal.spawn", ShakeConfigData.builder()
+                .amplitude(0F, 0.1F, 0.25F)
+                .speed(10F)
+                .duration(80)
+                .build());
+        put("minecraft:entity.wither.spawn", ShakeConfigData.builder()
+                .amplitude(0.05F, 0.05F, 0.1F)
+                .speed(10F)
+                .duration(60)
+                .build());
+        put("minecraft:entity.ender_dragon.death", ShakeConfigData.builder()
+                .amplitude(0.05F, 0.05F, 0.15F)
+                .speed(10F)
+                .duration(260)
+                .build());
+        put("minecraft:entity.elder_guardian.curse", ShakeConfigData.builder()
+                .amplitude(0.15F, 0.05F, 0.2F)
+                .speed(2F, 2F, 10F)
+                .duration(30)
+                .build());
     }};
 }
