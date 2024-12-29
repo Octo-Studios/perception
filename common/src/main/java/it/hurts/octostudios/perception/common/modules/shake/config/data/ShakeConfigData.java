@@ -47,18 +47,10 @@ public class ShakeConfigData {
     private int fadeOutTime = -1;
 
     public static class ShakeConfigDataBuilder {
-        private float rotationAmplitude = 0.1F;
-        private float offsetAmplitude = 0.1F;
-        private float fovAmplitude = 0.1F;
-
-        private float rotationSpeed = 5F;
-        private float offsetSpeed = 5F;
-        private float fovSpeed = 5F;
-
         public ShakeConfigDataBuilder amplitude(float rotationAmplitude, float offsetAmplitude, float fovAmplitude) {
-            this.rotationAmplitude = rotationAmplitude;
-            this.offsetAmplitude = offsetAmplitude;
-            this.fovAmplitude = fovAmplitude;
+            this.rotationAmplitude(rotationAmplitude);
+            this.offsetAmplitude(offsetAmplitude);
+            this.fovAmplitude(fovAmplitude);
 
             return this;
         }
@@ -68,9 +60,9 @@ public class ShakeConfigData {
         }
 
         public ShakeConfigDataBuilder speed(float rotationSpeed, float offsetSpeed, float fovSpeed) {
-            this.rotationSpeed = rotationSpeed;
-            this.offsetSpeed = offsetSpeed;
-            this.fovSpeed = fovSpeed;
+            this.rotationSpeed(rotationSpeed);
+            this.offsetSpeed(offsetSpeed);
+            this.fovSpeed(fovSpeed);
 
             return this;
         }
