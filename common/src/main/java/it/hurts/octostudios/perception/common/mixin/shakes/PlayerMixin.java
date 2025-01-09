@@ -1,4 +1,4 @@
-package it.hurts.octostudios.perception.common.mixin;
+package it.hurts.octostudios.perception.common.mixin.shakes;
 
 import it.hurts.octostudios.perception.common.init.ConfigRegistry;
 import it.hurts.octostudios.perception.common.modules.shake.Shake;
