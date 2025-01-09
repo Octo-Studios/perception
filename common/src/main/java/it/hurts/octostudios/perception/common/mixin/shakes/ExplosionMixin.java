@@ -27,11 +27,13 @@ public class ExplosionMixin {
     public void onFinalizeExplosion(boolean spawnParticles, CallbackInfo ci) {
         var explosion = (Explosion) (Object) this;
 
+        var radius = explosion.radius;
+
         ShakeManager.add(Shake.builder(new Vec3(x, y, z))
-                .amplitude(0.5F + (explosion.radius * 0.1F))
-                .radius(7F + explosion.radius * 2.5F)
-                .duration(10)
-                .speed(7F)
+                .amplitude(radius * 0.1F, radius * 0.1F, radius * 0.01F)
+                .radius(7F + radius * 2F)
+                .duration(15)
+                .speed(5F)
                 .build());
     }
 }
