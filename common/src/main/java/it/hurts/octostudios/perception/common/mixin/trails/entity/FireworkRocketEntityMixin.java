@@ -1,48 +1,53 @@
 package it.hurts.octostudios.perception.common.mixin.trails.entity;
 
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
-import net.minecraft.world.item.component.FireworkExplosion;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Mixin(FireworkRocketEntity.class)
 public abstract class FireworkRocketEntityMixin extends EntityMixin {
     @Shadow
-    protected abstract List<FireworkExplosion> getExplosions();
+    public abstract ItemStack getItem ();
 
     @Override
     public int getTrailFadeInColor() {
         var entity = (FireworkRocketEntity) (Object) this;
 
-        var explosions = getExplosions();
+        var stack = getItem();
+        if (stack.isEmpty()) return 0xFFFFFFFF;
 
-        var maxSize = explosions.size();
+        var tag = stack.getTagElement("Fireworks");
+        if (tag == null) return 0xFFFFFFFF;
 
-        if (maxSize == 0)
-            return 0xFFFFFFFF;
+        var explosions = tag.getList("Explosions", 10);
+        int maxSize = explosions.size();
+        if (maxSize == 0) return 0xFFFFFFFF;
 
         var colors = new ArrayList<Integer>();
-
-        for (var explosion : explosions)
-            colors.addAll(explosion.colors());
+        for (int i = 0; i < maxSize; i++) {
+            var explosion = explosions.getCompound(i);
+            int[] explosionColors = explosion.getIntArray("Colors");
+            for (var color : explosionColors) {
+                colors.add(color);
+            }
+        }
 
         int count = colors.size();
-
+        if (count == 0) return 0xFFFFFFFF;
         if (count < 2)
-            return colors.isEmpty() ? 0xFFFFFFFF : (colors.getFirst() & 0x00FFFFFF) | (0xFF << 24);
+            return (colors.get(0) & 0x00FFFFFF) | (0xFF << 24);
 
         var totalTime = count * 3;
         var tick = entity.tickCount % totalTime;
-
-        var t = (float) tick / totalTime * colors.size();
-        var index = (int) Math.floor(t) % colors.size();
+        var t = (float) tick / totalTime * count;
+        var index = (int) Math.floor(t) % count;
         var fraction = t - (int) t;
 
         var color1 = colors.get(index);
-        var color2 = colors.get((index + 1) % colors.size());
+        var color2 = colors.get((index + 1) % count);
 
         int r1 = (color1 >> 16) & 0xFF;
         int g1 = (color1 >> 8) & 0xFF;

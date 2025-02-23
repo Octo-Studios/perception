@@ -62,7 +62,7 @@ public abstract class EntityMixin implements ITrailConfigProvider {
     public boolean isTrailGrowing() {
         var entity = (Entity) (Object) this;
 
-        return entity.getKnownMovement().length() >= getTrailConfigData().getMinSpeed();
+        return entity.getDeltaMovement().length() >= getTrailConfigData().getMinSpeed();
     }
 
     @Override

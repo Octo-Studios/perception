@@ -4,7 +4,7 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    neoForge()
+    forge()
 }
 
 configurations {
@@ -14,7 +14,7 @@ configurations {
     }
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
+    developmentForge.extendsFrom common
 
     shadowBundle {
         canBeResolved = true
@@ -22,25 +22,19 @@ configurations {
     }
 }
 
-repositories {
-    maven {
-        name = 'NeoForged'
-        url = 'https://maven.neoforged.net/releases'
-    }
-}
-
 dependencies {
-    neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
+    forge "net.minecraftforge:forge:$rootProject.minecraft_version-$rootProject.forge_version"
+    forgeRuntimeLibrary 'org.yaml:snakeyaml:2.2'
 
-    modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+    modImplementation "dev.architectury:architectury-forge:$rootProject.architectury_api_version"
 
-    implementation "it.hurts.octostudios.octolib:octolib-neoforge:$rootProject.octolib_version"
+    modImplementation "it.hurts.octostudios.octolib:octolib-forge:$rootProject.octolib_version"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
+    shadowBundle project(path: ':common', configuration: 'transformProductionForge')
 }
 
-def resourceTargets = ['META-INF/neoforge.mods.toml']
+def resourceTargets = ['META-INF/mods.toml']
 def replaceProperties = [
         mod_version: mod_version, mod_group: mod_group, mod_name: mod_name,
         mod_id     : mod_id, mod_description: mod_description, mod_authors: mod_authors,
@@ -62,4 +56,5 @@ shadowJar {
 
 remapJar {
     input.set shadowJar.archiveFile
+    dependsOn shadowJar
 }
