@@ -2,6 +2,13 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
+loom {
+    forge {
+        mixinConfig "perception-common.mixins.json"
+        mixinConfig "perception-forge.mixins.json"
+    }
+}
+
 architectury {
     platformSetupLoomIde()
     forge()
