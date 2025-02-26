@@ -12,15 +12,8 @@
     "entrypoints": {
       "init": [
         "${mod_group}.quilt.PerceptionQuilt"
-      ],
-      "client": [
-        "${mod_group}.quilt.PerceptionQuiltClient"
       ]
     },
-    "mixins": [
-      "${mod_id}-common.mixins.json",
-      "${mod_id}-fabric.mixins.json"
-    ],
     "depends": [
       {
         "id": "quilt_loader",
@@ -32,16 +25,20 @@
       },
       {
         "id": "minecraft",
-        "version": ">=1.21"
+        "version": ">=1.20"
       },
       {
         "id": "architectury",
-        "version": ">=13.0.2"
+        "version": ">=9.2.14"
       },
       {
         "id": "octolib",
         "version": ">=0.5"
       }
     ]
-  }
+  },
+  "mixins": [
+    "${mod_id}-common.mixins.json",
+    "${mod_id}-fabric.mixins.json"
+  ]
 }
