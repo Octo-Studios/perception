@@ -48,7 +48,7 @@ public class ShakeConfig implements OctoConfig {
                 .amplitude(0.1F)
                 .speed(15F)
                 .duration(80)
-                .fadeInTime(40)
+                .fadeInTime(50)
                 .fadeOutTime(20)
                 .build());
         put("minecraft:entity.warden.emerge", ShakeConfigData.builder()
@@ -73,13 +73,13 @@ public class ShakeConfig implements OctoConfig {
                 .duration(5)
                 .build());
         put("minecraft:block.anvil.place", ShakeConfigData.builder()
-                .amplitude(0.15F)
-                .speed(10F)
+                .amplitude(0.1F)
+                .speed(7.5F)
                 .duration(5)
                 .build());
         put("minecraft:block.anvil.land", ShakeConfigData.builder()
-                .amplitude(0.1F)
-                .speed(10F)
+                .amplitude(0.075F)
+                .speed(7.5F)
                 .duration(5)
                 .build());
         put("minecraft:block.end_portal.spawn", ShakeConfigData.builder()
@@ -103,6 +103,11 @@ public class ShakeConfig implements OctoConfig {
                 .duration(30)
                 .build());
         put("minecraft:entity.generic.explode", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .duration(5)
+                .build());
+        put("minecraft:entity.dragon_fireball.explode", ShakeConfigData.builder()
                 .amplitude(0.1F, 0.5F, 0.15F)
                 .speed(5F, 3.5F, 10F)
                 .duration(5)
