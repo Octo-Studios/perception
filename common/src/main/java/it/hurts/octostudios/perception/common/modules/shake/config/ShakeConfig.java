@@ -102,5 +102,10 @@ public class ShakeConfig implements OctoConfig {
                 .speed(2F, 2F, 10F)
                 .duration(30)
                 .build());
+        put("minecraft:entity.generic.explode", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .duration(5)
+                .build());
     }};
 }

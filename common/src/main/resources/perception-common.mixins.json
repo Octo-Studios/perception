@@ -4,7 +4,6 @@
   "package": "it.hurts.octostudios.perception.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "shakes.ExplosionMixin",
     "shakes.PlayerMixin",
     "trails.entity.ArrowMixin",
     "trails.entity.EntityMixin",
