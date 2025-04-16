@@ -3,6 +3,7 @@ package it.hurts.octostudios.perception.common.mixin.shakes;
 import it.hurts.octostudios.perception.common.modules.shake.Shake;
 import it.hurts.octostudios.perception.common.modules.shake.ShakeManager;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ExplosionMixin {
     @Final
     @Shadow
+    private Level level;
+    @Final
+    @Shadow
     private double x;
     @Final
     @Shadow
@@ -25,11 +29,14 @@ public class ExplosionMixin {
 
     @Inject(method = "finalizeExplosion", at = @At("HEAD"))
     public void onFinalizeExplosion(boolean spawnParticles, CallbackInfo ci) {
+        if (!this.level.isClientSide())
+            return;
+
         var explosion = (Explosion) (Object) this;
 
         var radius = explosion.radius;
 
-        ShakeManager.add(Shake.builder(new Vec3(x, y, z))
+        ShakeManager.add(Shake.builder(new Vec3(this.x, this.y, this.z))
                 .amplitude(radius * 0.1F, radius * 0.1F, radius * 0.01F)
                 .radius(7F + radius * 2F)
                 .duration(15)
