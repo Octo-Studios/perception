@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ShakeConfigData {
     @Prop
     @Builder.Default
-    private float radius = -1F;
+    private float rangeMultiplier = 1F;
 
     @Prop
     @Builder.Default

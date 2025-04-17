@@ -17,7 +17,7 @@ public class ShakeConfig implements OctoConfig {
     @Prop(comment = """
             List of sound effects that trigger the screen shaking effect.
             
-            [radius] - The radius in blocks within which the shaking effect spreads. A value of -1 sets the shaking radius equal to the sound's playback radius;
+            [rangeMultiplier] - Multiplier of the standard sound playback range, which will be used as the radius for the screen shake effect;
             [rotationAmplitude|offsetAmplitude|fovAmplitude] - The intensity of the screen shaking;
             [rotationSpeed|offsetSpeed|fovSpeed] - The speed of the screen shaking;
             [duration] - The duration of the screen shaking;
@@ -105,11 +105,13 @@ public class ShakeConfig implements OctoConfig {
         put("minecraft:entity.generic.explode", ShakeConfigData.builder()
                 .amplitude(0.1F, 0.5F, 0.15F)
                 .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
                 .duration(5)
                 .build());
         put("minecraft:entity.dragon_fireball.explode", ShakeConfigData.builder()
                 .amplitude(0.1F, 0.5F, 0.15F)
                 .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
                 .duration(5)
                 .build());
     }};

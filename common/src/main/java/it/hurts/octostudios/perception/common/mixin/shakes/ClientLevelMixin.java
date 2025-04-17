@@ -23,12 +23,11 @@ public class ClientLevelMixin {
         if (data == null)
             return;
 
-        var radius = data.getRadius();
         var duration = data.getDuration();
         var fadeOutTime = data.getFadeOutTime();
 
         ShakeManager.add(Shake.builder(new Vec3(x, y, z))
-                .radius(radius == -1 ? soundEvent.getRange(volume) : radius)
+                .rangeMultiplier(soundEvent.getRange(volume) * data.getRangeMultiplier())
                 .fadeOutTime(fadeOutTime == -1 ? duration : fadeOutTime)
                 .fadeInTime((int) (data.getFadeInTime() / pitch))
                 .amplitude(data.getRotationAmplitude(), data.getOffsetAmplitude(), data.getFovAmplitude())

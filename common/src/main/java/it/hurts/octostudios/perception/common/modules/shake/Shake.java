@@ -44,7 +44,7 @@ public class Shake {
     private Function<Float, Float> fovFadeOutEasing;
 
     @Builder.Default
-    private Supplier<Float> radius;
+    private Supplier<Float> rangeMultiplier;
     @Builder.Default
     private Supplier<Float> rotationAmplitude;
     @Builder.Default
@@ -182,7 +182,7 @@ public class Shake {
     private float getCumulativeAmplitude(Player player, float amplitude, Function<Float, Float> fadeInEasing, Function<Float, Float> fadeOutEasing) {
         var distance = (float) player.position().distanceTo(source.getPos());
         var duration = getDuration();
-        var radius = getRadius();
+        var radius = getRangeMultiplier();
         var fadeInTime = getFadeInTime();
         var fadeOutTime = getFadeOutTime();
 
@@ -234,7 +234,7 @@ public class Shake {
 
     private float getCumulativeSpeed(Player player, float speed) {
         var distance = (float) player.position().distanceTo(source.getPos());
-        var radius = getRadius();
+        var radius = getRangeMultiplier();
 
         if (distance > radius)
             return 0F;
@@ -244,8 +244,8 @@ public class Shake {
         return speed * distanceFactor;
     }
 
-    public float getRadius() {
-        return radius.get();
+    public float getRangeMultiplier() {
+        return rangeMultiplier.get();
     }
 
     public float getRotationAmplitude() {
@@ -289,7 +289,7 @@ public class Shake {
     }
 
     public static class ShakeBuilder {
-        private Supplier<Float> radius = () -> 10F;
+        private Supplier<Float> rangeMultiplier = () -> 1F;
         private Supplier<Float> rotationAmplitude = () -> 1F;
         private Supplier<Float> offsetAmplitude = () -> 1F;
         private Supplier<Float> fovAmplitude = () -> 1F;
@@ -308,8 +308,8 @@ public class Shake {
         private Function<Float, Float> fovFadeInEasing = Easing::linear;
         private Function<Float, Float> fovFadeOutEasing = Easing::linear;
 
-        public ShakeBuilder radius(Supplier<Float> radius) {
-            this.radius = radius;
+        public ShakeBuilder rangeMultiplier(Supplier<Float> radius) {
+            this.rangeMultiplier = radius;
 
             return this;
         }
@@ -446,8 +446,8 @@ public class Shake {
             return this;
         }
 
-        public ShakeBuilder radius(float radius) {
-            this.radius = () -> radius;
+        public ShakeBuilder rangeMultiplier(float rangeMultiplier) {
+            this.rangeMultiplier = () -> rangeMultiplier;
 
             return this;
         }
