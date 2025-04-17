@@ -26,6 +26,11 @@ public class Shake {
     private ShakeSource source;
 
     @Builder.Default
+    private Function<Float, Float> distanceAmplitudeEasing;
+    @Builder.Default
+    private Function<Float, Float> distanceSpeedEasing;
+
+    @Builder.Default
     private Function<Float, Float> rotationFadeInEasing;
     @Builder.Default
     private Function<Float, Float> rotationFadeOutEasing;
@@ -184,7 +189,7 @@ public class Shake {
         if (distance > radius)
             return 0F;
 
-        var distanceFactor = 1F - (distance / radius);
+        var distanceFactor = distanceAmplitudeEasing.apply(Mth.clamp(1F - (distance / radius), 0F, 1F));
 
         float timeFactor;
 
@@ -229,13 +234,12 @@ public class Shake {
 
     private float getCumulativeSpeed(Player player, float speed) {
         var distance = (float) player.position().distanceTo(source.getPos());
-
         var radius = getRadius();
 
         if (distance > radius)
             return 0F;
 
-        var distanceFactor = 1F - (distance / radius);
+        var distanceFactor = distanceSpeedEasing.apply(Mth.clamp(1F - (distance / radius), 0F, 1F));
 
         return speed * distanceFactor;
     }
@@ -295,6 +299,8 @@ public class Shake {
         private Supplier<Integer> duration = () -> 20;
         private Supplier<Integer> fadeInTime = () -> 0;
         private Supplier<Integer> fadeOutTime = () -> -1;
+        private Function<Float, Float> distanceAmplitudeEasing = Easing::easeOutCubic;
+        private Function<Float, Float> distanceSpeedEasing = Easing::easeOutQuad;
         private Function<Float, Float> rotationFadeInEasing = Easing::linear;
         private Function<Float, Float> rotationFadeOutEasing = Easing::linear;
         private Function<Float, Float> offsetFadeInEasing = Easing::linear;
@@ -382,6 +388,18 @@ public class Shake {
 
         public ShakeBuilder fadeOutTime(Supplier<Integer> fadeOutTime) {
             this.fadeOutTime = fadeOutTime;
+
+            return this;
+        }
+
+        public ShakeBuilder distanceAmplitudeEasing(Function<Float, Float> distanceAmplitudeEasing) {
+            this.distanceAmplitudeEasing = distanceAmplitudeEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder distanceSpeedEasing(Function<Float, Float> distanceSpeedEasing) {
+            this.distanceSpeedEasing = distanceSpeedEasing;
 
             return this;
         }
