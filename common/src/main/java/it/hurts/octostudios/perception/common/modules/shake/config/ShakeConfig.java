@@ -2,15 +2,18 @@ package it.hurts.octostudios.perception.common.modules.shake.config;
 
 import it.hurts.octostudios.octolib.modules.config.annotations.Prop;
 import it.hurts.octostudios.octolib.modules.config.impl.OctoConfig;
+import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public class ShakeConfig implements OctoConfig {
+@EqualsAndHashCode(callSuper = true)
+public class ShakeConfig extends ModuleConfig {
     @Prop(comment = "Options for configuring the screen shake effect during player falls.")
     private FallShakeConfigData fallShakes = new FallShakeConfigData();
 
