@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientLevelMixin {
     @Inject(method = "playSound", at = @At("HEAD"))
     public void onPlaySound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay, long seed, CallbackInfo ci) {
-        var id = soundEvent.getLocation().toString();
+        var id = soundEvent.location().toString();
 
         var data = ConfigRegistry.SHAKE_CONFIG.getSoundShakes().get(id);
 

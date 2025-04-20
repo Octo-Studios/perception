@@ -15,7 +15,7 @@ public class AbstractClientPlayerMixin {
         var modifier = 0F;
 
         for (var effect : ShakeManager.SHAKES.values())
-            modifier += effect.getShakeFOV((AbstractClientPlayer) (Object) this, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true));
+            modifier += effect.getShakeFOV((AbstractClientPlayer) (Object) this, Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(true));
 
         if (modifier != 0F)
             cir.setReturnValue(cir.getReturnValue() + modifier);
