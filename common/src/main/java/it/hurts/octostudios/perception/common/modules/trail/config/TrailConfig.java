@@ -2,15 +2,18 @@ package it.hurts.octostudios.perception.common.modules.trail.config;
 
 import it.hurts.octostudios.octolib.modules.config.annotations.Prop;
 import it.hurts.octostudios.octolib.modules.config.impl.OctoConfig;
+import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public class TrailConfig implements OctoConfig {
+@EqualsAndHashCode(callSuper = true)
+public class TrailConfig extends ModuleConfig {
     @Prop(comment = "List of entity ID's that should have trail effect.")
     private Map<String, TrailConfigData> entityTrails = new HashMap<>() {{
         put("minecraft:arrow", new TrailConfigData(0.075F, 5, 0.001F, 1, "#00000000", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));

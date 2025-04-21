@@ -8,7 +8,7 @@
     "${mod_authors}"
   ],
   "license": "${mod_license}",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "${mod_group}.fabric.PerceptionFabric"
@@ -28,8 +28,5 @@
     "architectury": ">=9.2.14",
     "octolib": ">=0.5",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

@@ -14,8 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
     @Inject(method = "addEntity", at = @At("TAIL"))
-    public void addEntity(int i, Entity entity, CallbackInfo ci) {
-        if (!entity.getCommandSenderWorld().isClientSide() || !(entity instanceof ITrailConfigProvider provider))
+    public void addEntity(Entity entity, CallbackInfo ci) {
+        if (!ConfigRegistry.PERCEPTION_CONFIG.isEnabledTrailsModule() || !entity.getCommandSenderWorld().isClientSide()
+                || !(entity instanceof ITrailConfigProvider provider))
             return;
 
         var trail = ConfigRegistry.TRAIL_CONFIG.getEntityTrails().getOrDefault(EntityType.getKey(entity.getType()).toString(), null);

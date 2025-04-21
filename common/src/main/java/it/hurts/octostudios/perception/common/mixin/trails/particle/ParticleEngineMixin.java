@@ -16,6 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ParticleEngineMixin {
     @Inject(method = "createParticle", at = @At("RETURN"))
     public void createParticle(ParticleOptions options, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, CallbackInfoReturnable<Particle> cir) {
+        if (!ConfigRegistry.PERCEPTION_CONFIG.isEnabledTrailsModule())
+            return;
+
         var id = BuiltInRegistries.PARTICLE_TYPE.getKey(options.getType());
 
         if (id == null || !(cir.getReturnValue() instanceof ITrailConfigProvider provider))

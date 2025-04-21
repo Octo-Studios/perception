@@ -1,5 +1,6 @@
 package it.hurts.octostudios.perception.common.modules.shake;
 
+import it.hurts.octostudios.perception.common.misc.Easing;
 import it.hurts.octostudios.perception.common.modules.shake.data.EntityShakeSource;
 import it.hurts.octostudios.perception.common.modules.shake.data.PositionShakeSource;
 import it.hurts.octostudios.perception.common.modules.shake.data.base.ShakeSource;
@@ -14,6 +15,7 @@ import org.joml.Vector3f;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Data
@@ -24,7 +26,25 @@ public class Shake {
     private ShakeSource source;
 
     @Builder.Default
-    private Supplier<Float> radius;
+    private Function<Float, Float> distanceAmplitudeEasing;
+    @Builder.Default
+    private Function<Float, Float> distanceSpeedEasing;
+
+    @Builder.Default
+    private Function<Float, Float> rotationFadeInEasing;
+    @Builder.Default
+    private Function<Float, Float> rotationFadeOutEasing;
+    @Builder.Default
+    private Function<Float, Float> offsetFadeInEasing;
+    @Builder.Default
+    private Function<Float, Float> offsetFadeOutEasing;
+    @Builder.Default
+    private Function<Float, Float> fovFadeInEasing;
+    @Builder.Default
+    private Function<Float, Float> fovFadeOutEasing;
+
+    @Builder.Default
+    private Supplier<Float> rangeMultiplier;
     @Builder.Default
     private Supplier<Float> rotationAmplitude;
     @Builder.Default
@@ -87,7 +107,7 @@ public class Shake {
         lastTickOffset.set(currentTickOffset);
         lastTickRotation.set(currentTickRotation);
 
-        float currentTime = elapsedTime / 20F;
+        var currentTime = elapsedTime / 20F;
 
         var rotationAmplitude = getCumulativeRotationAmplitude(player);
         var rotationSpeed = getCumulativeRotationSpeed(player);
@@ -131,14 +151,16 @@ public class Shake {
     }
 
     private Vector3f computeOffsetForTick(Player player, float amplitude, float speed, float currentTime) {
-        var wave = Math.sin(2 * Math.PI * speed * currentTime);
+        var wave = (float) Math.sin(2 * Math.PI * speed * currentTime);
 
-        var direction = player.position().add(0, player.getEyeHeight(), 0)
+        var direction = player.getEyePosition()
                 .subtract(source.getPos())
                 .normalize();
 
+        var verticalMultiplier = 1F;
+
         var offsetX = (float) (direction.x * amplitude * wave);
-        var offsetY = (float) (direction.y * amplitude * wave);
+        var offsetY = (float) (direction.y * amplitude * wave * verticalMultiplier);
         var offsetZ = (float) (direction.z * amplitude * wave);
 
         return new Vector3f(offsetX, offsetY, offsetZ);
@@ -157,42 +179,45 @@ public class Shake {
         return new Vector3f(angleX, angleY, angleZ);
     }
 
-    public float getCumulativeRotationAmplitude(Player player) {
-        return getCumulativeAmplitude(player, getRotationAmplitude());
-    }
-
-    public float getCumulativeOffsetAmplitude(Player player) {
-        return getCumulativeAmplitude(player, getOffsetAmplitude());
-    }
-
-    public float getCumulativeFovAmplitude(Player player) {
-        return getCumulativeAmplitude(player, getFovAmplitude());
-    }
-
-    private float getCumulativeAmplitude(Player player, float amplitude) {
-        var distance = player.position().distanceTo(source.getPos());
-
+    private float getCumulativeAmplitude(Player player, float amplitude, Function<Float, Float> fadeInEasing, Function<Float, Float> fadeOutEasing) {
+        var distance = (float) player.position().distanceTo(source.getPos());
         var duration = getDuration();
-        var radius = getRadius();
-
+        var radius = getRangeMultiplier();
         var fadeInTime = getFadeInTime();
         var fadeOutTime = getFadeOutTime();
 
         if (distance > radius)
             return 0F;
 
-        var distanceFactor = (float) (1F - (distance / radius));
+        var distanceFactor = distanceAmplitudeEasing.apply(Mth.clamp(1F - (distance / radius), 0F, 1F));
 
         float timeFactor;
 
-        if (elapsedTime < fadeInTime)
-            timeFactor = (float) elapsedTime / fadeInTime;
-        else if (elapsedTime > duration - fadeOutTime)
-            timeFactor = (float) (duration - elapsedTime) / fadeOutTime;
-        else
+        if (elapsedTime < fadeInTime) {
+            var progress = (float) elapsedTime / fadeInTime;
+
+            timeFactor = fadeInEasing.apply(progress);
+        } else if (elapsedTime > duration - fadeOutTime) {
+            var progress = (float) (duration - elapsedTime) / fadeOutTime;
+
+            timeFactor = fadeOutEasing.apply(progress);
+        } else {
             timeFactor = 1F;
+        }
 
         return amplitude * distanceFactor * timeFactor;
+    }
+
+    public float getCumulativeRotationAmplitude(Player player) {
+        return getCumulativeAmplitude(player, getRotationAmplitude(), rotationFadeInEasing, rotationFadeOutEasing);
+    }
+
+    public float getCumulativeOffsetAmplitude(Player player) {
+        return getCumulativeAmplitude(player, getOffsetAmplitude(), offsetFadeInEasing, offsetFadeOutEasing);
+    }
+
+    public float getCumulativeFovAmplitude(Player player) {
+        return getCumulativeAmplitude(player, getFovAmplitude(), fovFadeInEasing, fovFadeOutEasing);
     }
 
     public float getCumulativeRotationSpeed(Player player) {
@@ -208,20 +233,19 @@ public class Shake {
     }
 
     private float getCumulativeSpeed(Player player, float speed) {
-        var distance = player.position().distanceTo(source.getPos());
-
-        var radius = getRadius();
+        var distance = (float) player.position().distanceTo(source.getPos());
+        var radius = getRangeMultiplier();
 
         if (distance > radius)
             return 0F;
 
-        var distanceFactor = (float) (1F - (distance / radius));
+        var distanceFactor = distanceSpeedEasing.apply(Mth.clamp(1F - (distance / radius), 0F, 1F));
 
         return speed * distanceFactor;
     }
 
-    public float getRadius() {
-        return radius.get();
+    public float getRangeMultiplier() {
+        return rangeMultiplier.get();
     }
 
     public float getRotationAmplitude() {
@@ -265,7 +289,7 @@ public class Shake {
     }
 
     public static class ShakeBuilder {
-        private Supplier<Float> radius = () -> 10F;
+        private Supplier<Float> rangeMultiplier = () -> 1F;
         private Supplier<Float> rotationAmplitude = () -> 1F;
         private Supplier<Float> offsetAmplitude = () -> 1F;
         private Supplier<Float> fovAmplitude = () -> 1F;
@@ -275,9 +299,17 @@ public class Shake {
         private Supplier<Integer> duration = () -> 20;
         private Supplier<Integer> fadeInTime = () -> 0;
         private Supplier<Integer> fadeOutTime = () -> -1;
+        private Function<Float, Float> distanceAmplitudeEasing = Easing::easeOutCubic;
+        private Function<Float, Float> distanceSpeedEasing = Easing::easeOutQuad;
+        private Function<Float, Float> rotationFadeInEasing = Easing::linear;
+        private Function<Float, Float> rotationFadeOutEasing = Easing::linear;
+        private Function<Float, Float> offsetFadeInEasing = Easing::linear;
+        private Function<Float, Float> offsetFadeOutEasing = Easing::linear;
+        private Function<Float, Float> fovFadeInEasing = Easing::linear;
+        private Function<Float, Float> fovFadeOutEasing = Easing::linear;
 
-        public ShakeBuilder radius(Supplier<Float> radius) {
-            this.radius = radius;
+        public ShakeBuilder rangeMultiplier(Supplier<Float> radius) {
+            this.rangeMultiplier = radius;
 
             return this;
         }
@@ -360,14 +392,62 @@ public class Shake {
             return this;
         }
 
+        public ShakeBuilder distanceAmplitudeEasing(Function<Float, Float> distanceAmplitudeEasing) {
+            this.distanceAmplitudeEasing = distanceAmplitudeEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder distanceSpeedEasing(Function<Float, Float> distanceSpeedEasing) {
+            this.distanceSpeedEasing = distanceSpeedEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder rotationFadeInEasing(Function<Float, Float> rotationFadeInEasing) {
+            this.rotationFadeInEasing = rotationFadeInEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder rotationFadeOutEasing(Function<Float, Float> rotationFadeOutEasing) {
+            this.rotationFadeOutEasing = rotationFadeOutEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder offsetFadeInEasing(Function<Float, Float> offsetFadeInEasing) {
+            this.offsetFadeInEasing = offsetFadeInEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder offsetFadeOutEasing(Function<Float, Float> offsetFadeOutEasing) {
+            this.offsetFadeOutEasing = offsetFadeOutEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder fovFadeInEasing(Function<Float, Float> fovFadeInEasing) {
+            this.fovFadeInEasing = fovFadeInEasing;
+
+            return this;
+        }
+
+        public ShakeBuilder fovFadeOutEasing(Function<Float, Float> fovFadeOutEasing) {
+            this.fovFadeOutEasing = fovFadeOutEasing;
+
+            return this;
+        }
+
         private ShakeBuilder source(ShakeSource source) {
             this.source = source;
 
             return this;
         }
 
-        public ShakeBuilder radius(float radius) {
-            this.radius = () -> radius;
+        public ShakeBuilder rangeMultiplier(float rangeMultiplier) {
+            this.rangeMultiplier = () -> rangeMultiplier;
 
             return this;
         }

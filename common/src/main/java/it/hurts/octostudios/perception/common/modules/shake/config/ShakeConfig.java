@@ -2,22 +2,25 @@ package it.hurts.octostudios.perception.common.modules.shake.config;
 
 import it.hurts.octostudios.octolib.modules.config.annotations.Prop;
 import it.hurts.octostudios.octolib.modules.config.impl.OctoConfig;
+import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public class ShakeConfig implements OctoConfig {
+@EqualsAndHashCode(callSuper = true)
+public class ShakeConfig extends ModuleConfig {
     @Prop(comment = "Options for configuring the screen shake effect during player falls.")
     private FallShakeConfigData fallShakes = new FallShakeConfigData();
 
     @Prop(comment = """
             List of sound effects that trigger the screen shaking effect.
             
-            [radius] - The radius in blocks within which the shaking effect spreads. A value of -1 sets the shaking radius equal to the sound's playback radius;
+            [rangeMultiplier] - Multiplier of the standard sound playback range, which will be used as the radius for the screen shake effect;
             [rotationAmplitude|offsetAmplitude|fovAmplitude] - The intensity of the screen shaking;
             [rotationSpeed|offsetSpeed|fovSpeed] - The speed of the screen shaking;
             [duration] - The duration of the screen shaking;
@@ -48,7 +51,7 @@ public class ShakeConfig implements OctoConfig {
                 .amplitude(0.1F)
                 .speed(15F)
                 .duration(80)
-                .fadeInTime(40)
+                .fadeInTime(50)
                 .fadeOutTime(20)
                 .build());
         put("minecraft:entity.warden.emerge", ShakeConfigData.builder()
@@ -73,13 +76,13 @@ public class ShakeConfig implements OctoConfig {
                 .duration(5)
                 .build());
         put("minecraft:block.anvil.place", ShakeConfigData.builder()
-                .amplitude(0.15F)
-                .speed(10F)
+                .amplitude(0.1F)
+                .speed(7.5F)
                 .duration(5)
                 .build());
         put("minecraft:block.anvil.land", ShakeConfigData.builder()
-                .amplitude(0.1F)
-                .speed(10F)
+                .amplitude(0.075F)
+                .speed(7.5F)
                 .duration(5)
                 .build());
         put("minecraft:block.end_portal.spawn", ShakeConfigData.builder()
@@ -101,6 +104,18 @@ public class ShakeConfig implements OctoConfig {
                 .amplitude(0.15F, 0.05F, 0.2F)
                 .speed(2F, 2F, 10F)
                 .duration(30)
+                .build());
+        put("minecraft:entity.generic.explode", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
+                .duration(5)
+                .build());
+        put("minecraft:entity.dragon_fireball.explode", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
+                .duration(5)
                 .build());
     }};
 }

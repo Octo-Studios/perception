@@ -54,7 +54,7 @@ public class PlayerMixin {
                     .duration(Integer.MAX_VALUE)
                     .uuid(perception$UUID)
                     .fadeOutTime(0)
-                    .radius(1F)
+                    .rangeMultiplier(1F)
                     .build());
         }
     }
