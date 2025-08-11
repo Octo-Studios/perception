@@ -1,7 +1,7 @@
 package it.hurts.octostudios.perception.common.init;
 
-import it.hurts.octostudios.octolib.modules.config.ConfigManager;
-import it.hurts.octostudios.octolib.modules.config.impl.OctoConfig;
+import it.hurts.octostudios.octolib.module.config.ConfigManager;
+import it.hurts.octostudios.octolib.module.config.impl.OctoConfig;
 import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.config.PerceptionConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.ShakeConfig;

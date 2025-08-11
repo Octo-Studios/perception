@@ -1,7 +1,6 @@
 package it.hurts.octostudios.perception.common.modules.shake.config;
 
-import it.hurts.octostudios.octolib.modules.config.annotations.Prop;
-import it.hurts.octostudios.octolib.modules.config.impl.OctoConfig;
+import it.hurts.octostudios.octolib.module.config.annotation.Prop;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
