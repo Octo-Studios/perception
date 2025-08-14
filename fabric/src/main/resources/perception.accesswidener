@@ -1,0 +1,9 @@
+accessWidener   v2  named
+
+accessible method net/minecraft/client/Camera move (FFF)V
+accessible field net/minecraft/server/level/ChunkMap updatingChunkMap Lit/unimi/dsi/fastutil/longs/Long2ObjectLinkedOpenHashMap;
+accessible method net/minecraft/world/entity/projectile/Arrow getColor ()I
+accessible method net/minecraft/world/entity/projectile/FireworkRocketEntity getExplosions ()Ljava/util/List;
+accessible field net/minecraft/client/particle/Particle xd D
+accessible field net/minecraft/client/particle/Particle yd D
+accessible field net/minecraft/client/particle/Particle zd D
