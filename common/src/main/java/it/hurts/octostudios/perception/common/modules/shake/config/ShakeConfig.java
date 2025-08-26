@@ -117,5 +117,39 @@ public class ShakeConfig extends ModuleConfig {
                 .rangeMultiplier(0.1F)
                 .duration(5)
                 .build());
+
+        // TODO: переделать амплитуду, амплисюду и вот это вот всё
+        put("minecraft:entity.illusioner.ambient", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F) // отредачьте это
+                .speed(5F, 3.5F, 10F) // отредачьте это
+                .rangeMultiplier(0.1F) // отредачьте это
+                .duration(5) // отредачьте это
+                // И так с каждым следущим звуковым эффектом
+                .build());
+        put("minecraft:entity.illusioner.cast_spell", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
+                .duration(5)
+                .build());
+        put("minecraft:entity.illusioner.mirror_move", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
+                .duration(5)
+                .build());
+        put("minecraft:entity.illusioner.prepare_blindness", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
+                .duration(5)
+                .build());
+        put("minecraft:entity.illusioner.prepare_mirror", ShakeConfigData.builder()
+                .amplitude(0.1F, 0.5F, 0.15F)
+                .speed(5F, 3.5F, 10F)
+                .rangeMultiplier(0.1F)
+                .duration(5)
+                .build());
+
     }};
 }
