@@ -4,19 +4,13 @@
   "package": "it.hurts.octostudios.perception.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "shakes.PlayerMixin",
-    "trails.entity.ArrowMixin",
-    "trails.entity.EntityMixin",
-    "trails.entity.ExperienceOrbMixin",
-    "trails.entity.FireworkRocketEntityMixin",
-    "trails.entity.ThrownPotionMixin"
+    "shakes.PlayerMixin"
   ],
   "client": [
     "shakes.AbstractClientPlayerMixin",
     "shakes.CameraMixin",
     "shakes.ClientLevelMixin",
     "shakes.GameRendererMixin",
-    "trails.entity.ClientLevelMixin",
     "trails.particle.ParticleEngineMixin",
     "trails.particle.ParticleMixin"
   ],

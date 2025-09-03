@@ -7,6 +7,10 @@ architectury {
     fabric()
 }
 
+loom {
+    accessWidenerPath = project(":common").file("src/main/resources/" + project.mod_id + ".accesswidener")
+}
+
 configurations {
     common {
         canBeResolved = true

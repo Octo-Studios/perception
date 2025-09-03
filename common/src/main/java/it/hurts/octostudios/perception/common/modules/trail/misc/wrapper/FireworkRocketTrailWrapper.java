@@ -1,23 +1,19 @@
-package it.hurts.octostudios.perception.common.mixin.trails.entity;
+package it.hurts.octostudios.perception.common.modules.trail.misc.wrapper;
 
+import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
+import it.hurts.octostudios.perception.common.modules.trail.misc.wrapper.base.TrailWrapper;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
-import net.minecraft.world.item.component.FireworkExplosion;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.ArrayList;
-import java.util.List;
 
-@Mixin(FireworkRocketEntity.class)
-public abstract class FireworkRocketEntityMixin extends EntityMixin {
-    @Shadow
-    protected abstract List<FireworkExplosion> getExplosions();
+public class FireworkRocketTrailWrapper extends TrailWrapper<FireworkRocketEntity> {
+    public FireworkRocketTrailWrapper(FireworkRocketEntity entity, TrailConfigData data) {
+        super(entity, data);
+    }
 
     @Override
     public int getTrailFadeInColor() {
-        var entity = (FireworkRocketEntity) (Object) this;
-
-        var explosions = getExplosions();
+        var explosions = entity.getExplosions();
 
         var maxSize = explosions.size();
 
