@@ -39,7 +39,7 @@ public class TrailWrapper<T extends Entity> extends EntityTrailProvider<T> {
 
         var entityPosition = (entity.tickCount > 1 ? entity.getPosition(partialTicks) : entity.position()).add(entity.getDeltaMovement().normalize().scale(-data.getMotionShift())).add(offset.x(), offset.y(), offset.z());
 
-        var player = entity.getCommandSenderWorld().getNearestPlayer(entity, getTrailRenderDistance());
+        var player = entity.level().getNearestPlayer(entity, getTrailRenderDistance());
 
         if (player == null)
             return entityPosition;

@@ -22,11 +22,11 @@
     "${mod_id}-fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.13",
-    "minecraft": ">=1.21.4",
+    "fabricloader": ">=0.17.2",
+    "minecraft": ">=1.21.8",
     "java": ">=21",
-    "architectury": ">=15.0.3",
-    "octolib": ">=0.5.0.1",
+    "architectury": ">=17.0.8",
+    "octolib": ">=0.6.0.4",
     "fabric-api": "*"
   }
 }

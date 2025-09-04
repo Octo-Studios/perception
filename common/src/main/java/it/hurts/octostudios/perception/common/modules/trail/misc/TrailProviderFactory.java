@@ -9,16 +9,16 @@ import it.hurts.octostudios.perception.common.modules.trail.misc.wrapper.ThrownP
 import it.hurts.octostudios.perception.common.modules.trail.misc.wrapper.base.TrailWrapper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.projectile.AbstractThrownPotion;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
-import net.minecraft.world.entity.projectile.ThrownPotion;
 
 public final class TrailProviderFactory {
     public static EntityTrailProvider<?> create(Entity entity, TrailConfigData data) {
         return switch (entity) {
             case Arrow arrow -> new ArrowTrailWrapper(arrow, data);
             case ExperienceOrb orb -> new ExperienceOrbTrailWrapper(orb, data);
-            case ThrownPotion potion -> new ThrownPotionTrailWrapper(potion, data);
+            case AbstractThrownPotion potion -> new ThrownPotionTrailWrapper(potion, data);
             case FireworkRocketEntity rocket -> new FireworkRocketTrailWrapper(rocket, data);
             default -> new TrailWrapper<>(entity, data);
         };

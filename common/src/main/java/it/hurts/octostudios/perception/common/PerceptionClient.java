@@ -19,10 +19,10 @@ public class PerceptionClient {
 
             var type = entities.get(key);
 
-            if (type == null)
+            if (type == null || type.isEmpty())
                 continue;
 
-            EntityTrailRegistry.registerProvider(type, entity -> (EntityTrailProvider) TrailProviderFactory.create(entity, data));
+            EntityTrailRegistry.registerProvider(type.get().value(), entity -> (EntityTrailProvider) TrailProviderFactory.create(entity, data));
         }
     }
 }
