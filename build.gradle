@@ -51,18 +51,18 @@ subprojects {
         implementation 'org.jetbrains:annotations:20.1.0'
 
         if (file("libs").isDirectory()) {
-            file("libs").eachFile { file ->
-                def splitPos = file.name.lastIndexOf("-")
+            file("libs").eachFile { f ->
+                var splitPos = f.name.lastIndexOf("-")
 
-                if (file.name != "desktop.ini") {
-                    println file.name
+                if (f.name != "desktop.ini") {
+                    println f.name
 
-                    def modartifact = file.name.substring(0, splitPos)
-                    def modversion = file.name.substring(splitPos + 1, file.name.length() - 4)
-                    def modreference = "lib:$modartifact:$modversion"
+                    var modartifact = f.name.substring(0, splitPos)
+                    var modversion = f.name.substring(splitPos + 1, f.name.length() - 4)
+                    var modreference = "lib:$modartifact:$modversion"
 
                     dependencies {
-                        implementation (project.dependencies.create(modreference) {
+                        modImplementation(project.dependencies.create(modreference) {
                             transitive = false
                         })
                     }

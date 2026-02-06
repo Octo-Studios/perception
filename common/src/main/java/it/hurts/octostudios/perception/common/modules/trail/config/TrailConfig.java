@@ -2,7 +2,7 @@ package it.hurts.octostudios.perception.common.modules.trail.config;
 
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
-import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
+import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.joml.Vector3f;
@@ -13,7 +13,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TrailConfig extends ModuleConfig {
-    @Prop(comment = "List of entity ID's that should have trail effect.")
+    @Comment("List of entity ID's that should have trail effect.")
     private Map<String, TrailConfigData> entityTrails = new HashMap<>() {{
         put("minecraft:arrow", new TrailConfigData(0.075F, 5, 0.001F, 1, "#00000000", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
         put("minecraft:spectral_arrow", new TrailConfigData(0.075F, 10, 0.001F, 1, "#FFFFD505", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
@@ -33,6 +33,11 @@ public class TrailConfig extends ModuleConfig {
         put("minecraft:phantom", new TrailConfigData(0.15F, 30, 0.001F, 1, "#FF38007D", "#80000000", new Vector3f(0F, 0.25F, 0F), 0F, 0F));
     }};
 
-    @Prop(comment = "List of particle ID's that should have trail effect.")
+    @Comment("List of particle ID's that should have trail effect.")
     private Map<String, TrailConfigData> particleTrails = new HashMap<>();
+
+    @Override
+    public String getName() {
+        return "trail";
+    }
 }

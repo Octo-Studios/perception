@@ -1,6 +1,6 @@
 package it.hurts.octostudios.perception.common.modules.trail.config.data;
 
-import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
+import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,22 +10,22 @@ import org.joml.Vector3f;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TrailConfigData {
-    @Prop(comment = "Trail thickness")
+    @Comment("Trail thickness")
     private float size = 0.1F;
-    @Prop(comment = "Maximum trail length, measured in points that are placed every N ticks, where N is the value of updateFrequency")
+    @Comment("Maximum trail length, measured in points that are placed every N ticks, where N is the value of updateFrequency")
     private int maxPoints = 5;
-    @Prop(comment = "Minimum object movement speed to place trail points")
+    @Comment("Minimum object movement speed to place trail points")
     private float minSpeed = 0.001F;
-    @Prop(comment = "Frequency of trail point placement")
+    @Comment("Frequency of trail point placement")
     private int updateFrequency = 1;
-    @Prop(comment = "Starting color of the trail in ARGB format")
+    @Comment("Starting color of the trail in ARGB format")
     private String fadeInColor = "FFFFFFFF";
-    @Prop(comment = "Ending color of the trail in ARGB format")
+    @Comment("Ending color of the trail in ARGB format")
     private String fadeOutColor = "FFFFFFFF";
-    @Prop(comment = "Position offset of the trail relative to the object in XYZ")
+    @Comment("Position offset of the trail relative to the object in XYZ")
     private Vector3f positionOffset = new Vector3f(0F, 0F, 0F);
-    @Prop(comment = "Position offset of the trail in the opposite direction from the player's standing point")
+    @Comment("Position offset of the trail in the opposite direction from the player's standing point")
     private float backwardShift = 0F;
-    @Prop(comment = "Position offset of the trail in the opposite direction from the object's movement")
+    @Comment("Position offset of the trail in the opposite direction from the object's movement")
     private float motionShift = 0.25F;
 }

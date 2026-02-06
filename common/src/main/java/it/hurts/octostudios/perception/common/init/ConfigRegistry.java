@@ -5,7 +5,7 @@ import it.hurts.octostudios.perception.common.config.PerceptionConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.ShakeConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.TrailConfig;
 import it.hurts.shatterbyte.shatterlib.module.config.ConfigManager;
-import it.hurts.shatterbyte.shatterlib.module.config.impl.ShatterConfig;
+import it.hurts.shatterbyte.shatterlib.module.config.ShatterConfig;
 
 public class ConfigRegistry {
     public static PerceptionConfigData PERCEPTION_CONFIG = new PerceptionConfigData();
@@ -14,7 +14,7 @@ public class ConfigRegistry {
     public static TrailConfig TRAIL_CONFIG = new TrailConfig();
 
     public static void registerCommon() {
-        ConfigManager.registerConfig(Perception.MODID, PERCEPTION_CONFIG);
+        ConfigManager.register(Perception.MODID, PERCEPTION_CONFIG);
 
         if (!PERCEPTION_CONFIG.isEnabledExtendedConfigs())
             return;
@@ -24,6 +24,6 @@ public class ConfigRegistry {
     }
 
     private static void registerModule(String path, ShatterConfig config) {
-        ConfigManager.registerConfig(Perception.MODID + "/modules/" + path, config);
+        ConfigManager.register(Perception.MODID + "/modules/" + path, config);
     }
 }
