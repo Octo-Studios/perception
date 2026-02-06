@@ -1,11 +1,11 @@
 package it.hurts.octostudios.perception.common.config;
 
-import it.hurts.octostudios.octolib.module.config.annotation.Prop;
-import it.hurts.octostudios.octolib.module.config.impl.OctoConfig;
+import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
+import it.hurts.shatterbyte.shatterlib.module.config.impl.ShatterConfig;
 import lombok.Data;
 
 @Data
-public class PerceptionConfigData implements OctoConfig {
+public class PerceptionConfigData implements ShatterConfig {
     @Prop(comment = """
             Toggles advanced configuration files, allowing customization of most of the mod's functionality. May contain WIP content that may change in the future.
             

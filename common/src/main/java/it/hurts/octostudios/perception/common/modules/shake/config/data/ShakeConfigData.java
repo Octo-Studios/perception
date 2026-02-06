@@ -1,6 +1,6 @@
 package it.hurts.octostudios.perception.common.modules.shake.config.data;
 
-import it.hurts.octostudios.octolib.module.config.annotation.Prop;
+import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

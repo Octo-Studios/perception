@@ -1,9 +1,9 @@
 package it.hurts.octostudios.perception.common.modules.shake.config;
 
-import it.hurts.octostudios.octolib.module.config.annotation.Prop;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
+import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -3,7 +3,7 @@ package it.hurts.octostudios.perception.common.modules.trail.misc.wrapper;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
 import it.hurts.octostudios.perception.common.modules.trail.misc.wrapper.base.TrailWrapper;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.entity.projectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
 import net.minecraft.world.item.alchemy.PotionContents;
 
 public class ThrownPotionTrailWrapper extends TrailWrapper<AbstractThrownPotion> {

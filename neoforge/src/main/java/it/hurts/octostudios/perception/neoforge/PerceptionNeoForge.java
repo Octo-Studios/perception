@@ -11,7 +11,7 @@ public final class PerceptionNeoForge {
     public PerceptionNeoForge(IEventBus modBus) {
         Perception.init();
 
-        if (FMLEnvironment.dist == Dist.CLIENT)
+        if (FMLEnvironment.getDist() == Dist.CLIENT)
             new PerceptionNeoForgeClient(modBus);
     }
 }

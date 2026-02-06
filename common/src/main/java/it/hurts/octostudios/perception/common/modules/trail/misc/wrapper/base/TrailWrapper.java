@@ -1,7 +1,7 @@
 package it.hurts.octostudios.perception.common.modules.trail.misc.wrapper.base;
 
-import it.hurts.octostudios.octolib.module.particle.trail.EntityTrailProvider;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
+import it.hurts.shatterbyte.shatterlib.module.particle.trail.EntityTrailProvider;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.world.entity.Entity;

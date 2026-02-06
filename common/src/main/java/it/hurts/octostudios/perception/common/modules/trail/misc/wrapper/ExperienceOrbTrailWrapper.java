@@ -3,7 +3,6 @@ package it.hurts.octostudios.perception.common.modules.trail.misc.wrapper;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
 import it.hurts.octostudios.perception.common.modules.trail.misc.wrapper.base.TrailWrapper;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.projectile.Arrow;
 
 public class ExperienceOrbTrailWrapper extends TrailWrapper<ExperienceOrb> {
     public ExperienceOrbTrailWrapper(ExperienceOrb entity, TrailConfigData data) {

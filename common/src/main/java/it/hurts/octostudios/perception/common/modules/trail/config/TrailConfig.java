@@ -1,8 +1,8 @@
 package it.hurts.octostudios.perception.common.modules.trail.config;
 
-import it.hurts.octostudios.octolib.module.config.annotation.Prop;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
+import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.joml.Vector3f;
