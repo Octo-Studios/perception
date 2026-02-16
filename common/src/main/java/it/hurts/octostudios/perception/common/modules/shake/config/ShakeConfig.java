@@ -1,5 +1,6 @@
 package it.hurts.octostudios.perception.common.modules.shake.config;
 
+import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
@@ -107,8 +108,8 @@ public class ShakeConfig extends ModuleConfig {
         put("minecraft:entity.generic.explode", ShakeConfigData.builder()
                 .amplitude(0.1F, 0.5F, 0.15F)
                 .speed(5F, 3.5F, 10F)
-                .rangeMultiplier(0.1F)
-                .duration(5)
+                .rangeMultiplier(0.25F)
+                .duration(7)
                 .build());
         put("minecraft:entity.dragon_fireball.explode", ShakeConfigData.builder()
                 .amplitude(0.1F, 0.5F, 0.15F)
@@ -120,6 +121,6 @@ public class ShakeConfig extends ModuleConfig {
 
     @Override
     public String getName() {
-        return "shake";
+        return Perception.MODID + "/modules/shake";
     }
 }

@@ -1,5 +1,6 @@
 package it.hurts.octostudios.perception.common.modules.trail.config;
 
+import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
 import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
@@ -38,6 +39,6 @@ public class TrailConfig extends ModuleConfig {
 
     @Override
     public String getName() {
-        return "trail";
+        return Perception.MODID + "/modules/trail";
     }
 }
