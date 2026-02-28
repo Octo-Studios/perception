@@ -1,10 +1,9 @@
 package it.hurts.octostudios.perception.common.modules.shake.config;
 
-import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.FallShakeConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.data.ShakeConfigData;
-import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
+import it.hurts.shatterbyte.shatterlib.module.config.annotation.Prop;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,10 +13,10 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ShakeConfig extends ModuleConfig {
-    @Comment("Options for configuring the screen shake effect during player falls.")
+    @Prop(comment = "Options for configuring the screen shake effect during player falls.")
     private FallShakeConfigData fallShakes = new FallShakeConfigData();
 
-    @Comment("""
+    @Prop(comment = """
             List of sound effects that trigger the screen shaking effect.
             
             [rangeMultiplier] - Multiplier of the standard sound playback range, which will be used as the radius for the screen shake effect;
@@ -118,9 +117,4 @@ public class ShakeConfig extends ModuleConfig {
                 .duration(5)
                 .build());
     }};
-
-    @Override
-    public String getName() {
-        return Perception.MODID + "/modules/shake";
-    }
 }

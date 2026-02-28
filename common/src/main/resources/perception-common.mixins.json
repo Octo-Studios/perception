@@ -7,7 +7,6 @@
     "shakes.PlayerMixin"
   ],
   "client": [
-    "TitleScreenMixin",
     "shakes.AbstractClientPlayerMixin",
     "shakes.CameraMixin",
     "shakes.ClientLevelMixin",
