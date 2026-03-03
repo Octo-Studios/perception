@@ -15,7 +15,7 @@ public class TrailConfigData {
     @Prop(comment = "Maximum trail length, measured in points that are placed every N ticks, where N is the value of updateFrequency")
     private int maxPoints = 5;
     @Prop(comment = "Minimum object movement speed to place trail points")
-    private float minSpeed = 0.025F;
+    private float minSpeed = 0.05F;
     @Prop(comment = "Frequency of trail point placement")
     private int updateFrequency = 1;
     @Prop(comment = "Starting color of the trail in ARGB format")

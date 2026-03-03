@@ -53,7 +53,9 @@ public class TrailWrapper<T extends Entity> extends EntityTrailProvider<T> {
 
     @Override
     public boolean isTrailGrowing() {
-        return entity.getKnownMovement().length() >= data.getMinSpeed();
+        var delta = entity.getDeltaMovement();
+
+        return (entity.onGround() ? delta.multiply(1,0,1) : delta).length() >= data.getMinSpeed();
     }
 
     @Override
