@@ -4,6 +4,7 @@ import it.hurts.octostudios.octolib.module.config.ConfigManager;
 import it.hurts.octostudios.octolib.module.config.impl.OctoConfig;
 import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.config.PerceptionConfigData;
+import it.hurts.octostudios.perception.common.modules.chromatic_aberration.config.ChromaticAberrationConfig;
 import it.hurts.octostudios.perception.common.modules.shake.config.ShakeConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.TrailConfig;
 
@@ -12,6 +13,7 @@ public class ConfigRegistry {
 
     public static ShakeConfig SHAKE_CONFIG = new ShakeConfig();
     public static TrailConfig TRAIL_CONFIG = new TrailConfig();
+    public static ChromaticAberrationConfig CHROMATIC_ABERRATION_CONFIG = new ChromaticAberrationConfig();
 
     public static void registerCommon() {
         ConfigManager.registerConfig(Perception.MODID, PERCEPTION_CONFIG);
@@ -21,6 +23,7 @@ public class ConfigRegistry {
 
         registerModule("shake", SHAKE_CONFIG);
         registerModule("trail", TRAIL_CONFIG);
+        registerModule("chromatic_aberration", CHROMATIC_ABERRATION_CONFIG);
     }
 
     private static void registerModule(String path, OctoConfig config) {

@@ -17,4 +17,6 @@ public class PerceptionConfigData implements OctoConfig {
     private boolean enabledShakesModule = true;
     @Prop(comment = "Enables or disables the entities/particles trails module.")
     private boolean enabledTrailsModule = true;
+    @Prop(comment = "Enables or disables the chromatic aberration module.")
+    private boolean enabledChromaticAberrationModule = true;
 }

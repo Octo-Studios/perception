@@ -22,7 +22,7 @@ public class ShakeConfig extends ModuleConfig {
             [rangeMultiplier] - Multiplier of the standard sound playback range, which will be used as the radius for the screen shake effect;
             [rotationAmplitude|offsetAmplitude|fovAmplitude] - The intensity of the screen shaking;
             [rotationSpeed|offsetSpeed|fovSpeed] - The speed of the screen shaking;
-            [duration] - The duration of the screen shaking;
+            [duration] - The duration of the screen shaking in ticks;
             [fadeInTime] - The time in ticks for interpolating the screen shaking from the minimum to the maximum value. Applied at the start of the shaking effect;
             [fadeOutTime] - The time in ticks for interpolating the screen shaking from the maximum to the minimum value. Applied at the end of the shaking effect. A value of -1 sets the interpolation duration equal to the effect's total duration.
             
@@ -105,7 +105,7 @@ public class ShakeConfig extends ModuleConfig {
                 .duration(30)
                 .build());
         put("minecraft:entity.generic.explode", ShakeConfigData.builder()
-                .amplitude(0.1F, 0.5F, 0.15F)
+                .amplitude(0.1F, 0.35F, 0.15F)
                 .speed(5F, 3.5F, 10F)
                 .rangeMultiplier(0.1F)
                 .duration(5)
