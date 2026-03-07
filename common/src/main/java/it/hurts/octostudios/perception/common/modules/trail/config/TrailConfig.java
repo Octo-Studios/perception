@@ -208,8 +208,8 @@ public class TrailConfig extends ModuleConfig {
                 .build());
     }};
 
-    @Comment("List of particle ID's that should have trail effect.")
-    private Map<String, TrailConfigData> particleTrails = new HashMap<>();
+//    @Comment("List of particle ID's that should have trail effect.")
+//    private Map<String, TrailConfigData> particleTrails = new HashMap<>();
 
     @Override
     public String getName() {
