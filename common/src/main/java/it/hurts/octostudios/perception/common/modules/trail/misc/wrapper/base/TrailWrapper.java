@@ -63,11 +63,11 @@ public class TrailWrapper<T extends Entity> extends EntityTrailProvider<T> {
 
     @Override
     public int getTrailFadeInColor() {
-        return (int) Long.parseLong(data.getFadeInColor().replace("#", ""), 16);
+        return data.getFadeInColor().getARGB();
     }
 
     @Override
     public int getTrailFadeOutColor() {
-        return (int) Long.parseLong(data.getFadeOutColor().replace("#", ""), 16);
+        return data.getFadeOutColor().getARGB();
     }
 }

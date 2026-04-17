@@ -1,33 +1,38 @@
 package it.hurts.octostudios.perception.common.modules.trail.config.data;
 
-import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import it.hurts.shatterbyte.shatterlib.util.ShatterColor;
+import lombok.*;
 import org.joml.Vector3f;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class TrailConfigData {
-    @Comment("Trail thickness")
+    @Builder.Default
     private float size = 0.1F;
-    @Comment("Maximum trail length, measured in points that are placed every N ticks, where N is the value of updateFrequency")
+
+    @Builder.Default
     private int maxPoints = 5;
-    @Comment("Minimum object movement speed to place trail points")
+
+    @Builder.Default
     private float minSpeed = 0.025F;
-    @Comment("Frequency of trail point placement")
+
+    @Builder.Default
     private int updateFrequency = 1;
-    @Comment("Starting color of the trail in ARGB format")
-    private String fadeInColor = "FFFFFFFF";
-    @Comment("Ending color of the trail in ARGB format")
-    private String fadeOutColor = "FFFFFFFF";
-    @Comment("Position offset of the trail relative to the object in XYZ")
+
+    @Builder.Default
+    private ShatterColor fadeInColor = new ShatterColor(0xFFFFFFFF);
+
+    @Builder.Default
+    private ShatterColor fadeOutColor = new ShatterColor(0xFFFFFFFF);
+
+    @Builder.Default
     private Vector3f positionOffset = new Vector3f(0F, 0F, 0F);
-    @Comment("Position offset of the trail in the opposite direction from the player's standing point")
+
+    @Builder.Default
     private float backwardShift = 0F;
-    @Comment("Position offset of the trail in the opposite direction from the object's movement")
+
+    @Builder.Default
     private float motionShift = 0.25F;
 }

@@ -4,6 +4,7 @@ import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.modules.base.config.ModuleConfig;
 import it.hurts.octostudios.perception.common.modules.trail.config.data.TrailConfigData;
 import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
+import it.hurts.shatterbyte.shatterlib.util.ShatterColor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.joml.Vector3f;
@@ -15,24 +16,196 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TrailConfig extends ModuleConfig {
-    @Comment("List of entity ID's that should have trail effect.")
+    @Comment("""
+            List of entity ID's that should have trail effect.
+            
+            [size] - Trail thickness;
+            [maxPoints] - Maximum trail length, measured in points that are placed every N ticks, where N is the value of updateFrequency;
+            [minSpeed] - Minimum object movement speed to place trail points;
+            [updateFrequency] - Frequency of trail point placement;
+            [fadeInColor] - Starting color of the trail in ARGB format;
+            [fadeOutColor] - Ending color of the trail in ARGB format;
+            [positionOffset] - Position offset of the trail relative to the object in XYZ;
+            [backwardShift] - Position offset of the trail in the opposite direction from the player's standing point;
+            [motionShift] - Position offset of the trail in the opposite direction from the object's movement.
+            """)
     private LinkedHashMap<String, TrailConfigData> entityTrails = new LinkedHashMap<>() {{
-        put("minecraft:arrow", new TrailConfigData(0.075F, 5, 0.001F, 1, "#00000000", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
-        put("minecraft:spectral_arrow", new TrailConfigData(0.075F, 10, 0.001F, 1, "#FFFFD505", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
-        put("minecraft:trident", new TrailConfigData(0.05F, 10, 0.001F, 1, "#FF00FFEA", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
-        put("minecraft:experience_orb", new TrailConfigData(0.075F, 5, 0.001F, 1, "#FF66FF00", "#80D9FF00", new Vector3f(0F, 0.175F, 0F), 0.1F, 0.1F));
-        put("minecraft:firework_rocket", new TrailConfigData(0.075F, 15, 0.001F, 1, "#80FFFFFF", "#FFFF0000", new Vector3f(0F, 0.25F, 0F), 0F, 1F));
-        put("minecraft:potion", new TrailConfigData(0.085F, 5, 0.001F, 1, "#8AD1E2F4", "#80000000", new Vector3f(0F, 0.15F, 0F), 0F, 0F));
-        put("minecraft:fireball", new TrailConfigData(0.35F, 5, 0.001F, 1, "#FFEBAA18", "#80800000", new Vector3f(0F, 0.35F, 0F), 0F, 0F));
-        put("minecraft:small_fireball", new TrailConfigData(0.2F, 5, 0.001F, 1, "#FFEBAA18", "#80800000", new Vector3f(0F, 0.15F, 0F), 0F, 0F));
-        put("minecraft:dragon_fireball", new TrailConfigData(0.45F, 5, 0.001F, 1, "#FFD974F7", "#80FF00D0", new Vector3f(0F, 0.35F, 0F), 0F, 0F));
-        put("minecraft:wither_skull", new TrailConfigData(0.1F, 5, 0.001F, 1, "#FF576868", "#80000000", new Vector3f(0F, 0.125F, 0F), 0F, 0F));
-        put("minecraft:wind_charge", new TrailConfigData(0.075F, 10, 0.001F, 1, "#FFE8ECFC", "#80000000", new Vector3f(0F, 0.05F, 0F), 0F, 0F));
-        put("minecraft:breeze_wind_charge", new TrailConfigData(0.075F, 10, 0.001F, 1, "#FFE8ECFC", "#80000000", new Vector3f(0F, 0.05F, 0F), 0F, 0F));
-        put("minecraft:eye_of_ender", new TrailConfigData(0.075F, 10, 0.001F, 1, "#FF6321A6", "#80FF00D0", new Vector3f(0F, 0.125F, 0F), 0F, 0F));
-        put("minecraft:vex", new TrailConfigData(0.15F, 20, 0.001F, 1, "#FF515F6D", "#80000000", new Vector3f(0F, 0.4F, 0F), 0F, 0F));
-        put("minecraft:allay", new TrailConfigData(0.15F, 20, 0.001F, 1, "#FF63F8FC", "#80000000", new Vector3f(0F, 0.3F, 0F), 0F, 0F));
-        put("minecraft:phantom", new TrailConfigData(0.15F, 30, 0.001F, 1, "#FF38007D", "#80000000", new Vector3f(0F, 0.25F, 0F), 0F, 0F));
+        put("minecraft:arrow", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0x00000000))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:spectral_arrow", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(10)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFFFFD505))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:trident", TrailConfigData.builder()
+                .size(0.05F)
+                .maxPoints(10)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF00FFEA))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:experience_orb", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF66FF00))
+                .fadeOutColor(new ShatterColor(0x80D9FF00))
+                .positionOffset(new Vector3f(0F, 0.175F, 0F))
+                .backwardShift(0.1F)
+                .motionShift(0.1F)
+                .build());
+        put("minecraft:firework_rocket", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(15)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0x80FFFFFF))
+                .fadeOutColor(new ShatterColor(0xFFFF0000))
+                .positionOffset(new Vector3f(0F, 0.25F, 0F))
+                .backwardShift(0F)
+                .motionShift(1F)
+                .build());
+        put("minecraft:potion", TrailConfigData.builder()
+                .size(0.085F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0x8AD1E2F4))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.15F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:fireball", TrailConfigData.builder()
+                .size(0.35F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFFEBAA18))
+                .fadeOutColor(new ShatterColor(0x80800000))
+                .positionOffset(new Vector3f(0F, 0.35F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:small_fireball", TrailConfigData.builder()
+                .size(0.2F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFFEBAA18))
+                .fadeOutColor(new ShatterColor(0x80800000))
+                .positionOffset(new Vector3f(0F, 0.15F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:dragon_fireball", TrailConfigData.builder()
+                .size(0.45F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFFD974F7))
+                .fadeOutColor(new ShatterColor(0x80FF00D0))
+                .positionOffset(new Vector3f(0F, 0.35F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:wither_skull", TrailConfigData.builder()
+                .size(0.1F)
+                .maxPoints(5)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF576868))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.125F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:wind_charge", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(10)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFFE8ECFC))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.05F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:breeze_wind_charge", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(10)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFFE8ECFC))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.05F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:eye_of_ender", TrailConfigData.builder()
+                .size(0.075F)
+                .maxPoints(10)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF6321A6))
+                .fadeOutColor(new ShatterColor(0x80FF00D0))
+                .positionOffset(new Vector3f(0F, 0.125F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:vex", TrailConfigData.builder()
+                .size(0.15F)
+                .maxPoints(20)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF515F6D))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.4F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:allay", TrailConfigData.builder()
+                .size(0.15F)
+                .maxPoints(20)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF63F8FC))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.3F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
+        put("minecraft:phantom", TrailConfigData.builder()
+                .size(0.15F)
+                .maxPoints(30)
+                .minSpeed(0.001F)
+                .updateFrequency(1)
+                .fadeInColor(new ShatterColor(0xFF38007D))
+                .fadeOutColor(new ShatterColor(0x80000000))
+                .positionOffset(new Vector3f(0F, 0.25F, 0F))
+                .backwardShift(0F)
+                .motionShift(0F)
+                .build());
     }};
 
     @Comment("List of particle ID's that should have trail effect.")
