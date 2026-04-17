@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class PerceptionClient {
     public static void init() {
+        ConfigRegistry.registerCommon();
+
         var entities = BuiltInRegistries.ENTITY_TYPE.keySet().stream().collect(Collectors.toMap(Identifier::toString, BuiltInRegistries.ENTITY_TYPE::get));
 
         for (var entry : ConfigRegistry.TRAIL_CONFIG.getEntityTrails().entrySet()) {

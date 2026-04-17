@@ -1,5 +1,6 @@
 package it.hurts.octostudios.perception.common.init;
 
+import dev.architectury.platform.Platform;
 import it.hurts.octostudios.perception.common.Perception;
 import it.hurts.octostudios.perception.common.config.PerceptionConfigData;
 import it.hurts.octostudios.perception.common.modules.shake.config.ShakeConfig;
@@ -17,5 +18,7 @@ public class ConfigRegistry {
 
         ConfigManager.register(Perception.MODID, SHAKE_CONFIG);
         ConfigManager.register(Perception.MODID, TRAIL_CONFIG);
+        SHAKE_CONFIG.load(Platform.getConfigFolder(), true);
+        TRAIL_CONFIG.load(Platform.getConfigFolder(), true);
     }
 }

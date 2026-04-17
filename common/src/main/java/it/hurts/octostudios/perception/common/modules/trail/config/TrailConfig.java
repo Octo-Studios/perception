@@ -9,13 +9,14 @@ import lombok.EqualsAndHashCode;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TrailConfig extends ModuleConfig {
     @Comment("List of entity ID's that should have trail effect.")
-    private Map<String, TrailConfigData> entityTrails = new HashMap<>() {{
+    private LinkedHashMap<String, TrailConfigData> entityTrails = new LinkedHashMap<>() {{
         put("minecraft:arrow", new TrailConfigData(0.075F, 5, 0.001F, 1, "#00000000", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
         put("minecraft:spectral_arrow", new TrailConfigData(0.075F, 10, 0.001F, 1, "#FFFFD505", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));
         put("minecraft:trident", new TrailConfigData(0.05F, 10, 0.001F, 1, "#FF00FFEA", "#80000000", new Vector3f(0F, 0F, 0F), 0F, 0F));

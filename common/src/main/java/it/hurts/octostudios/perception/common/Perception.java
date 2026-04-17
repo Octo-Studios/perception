@@ -6,6 +6,6 @@ public class Perception {
     public static final String MODID = "perception";
 
     public static void init() {
-        ConfigRegistry.registerCommon();
+
     }
 }

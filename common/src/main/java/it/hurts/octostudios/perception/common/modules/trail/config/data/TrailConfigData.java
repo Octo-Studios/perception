@@ -3,12 +3,14 @@ package it.hurts.octostudios.perception.common.modules.trail.config.data;
 import it.hurts.shatterbyte.shatterlib.module.config.type.annotation.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.joml.Vector3f;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class TrailConfigData {
     @Comment("Trail thickness")
     private float size = 0.1F;
