@@ -2,26 +2,32 @@ package it.hurts.octostudios.perception.common.mixin.shakes;
 
 import it.hurts.octostudios.perception.common.modules.shake.ShakeManager;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Camera.class)
-public class CameraMixin {
-    @Inject(method = "setup", at = @At("TAIL"))
-    public void onSetup(Level level, Entity entity, boolean bl, boolean bl2, float partialTicks, CallbackInfo ci) {
-        var MC = Minecraft.getInstance();
-        var player = MC.player;
+public abstract class CameraMixin {
+    @Shadow
+    protected abstract void move(float forwards, float up, float right);
+
+    @Shadow
+    public abstract float getCameraEntityPartialTicks(DeltaTracker deltaTracker);
+
+    @Inject(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Camera;alignWithEntity(F)V", shift = At.Shift.AFTER))
+    public void onUpdate(DeltaTracker deltaTracker, CallbackInfo ci) {
+        var player = Minecraft.getInstance().player;
 
         if (player == null)
             return;
+
+        var partialTicks = getCameraEntityPartialTicks(deltaTracker);
 
         var shakeRotation = new Vector3f();
         var shakeOffset = new Vector3f();
@@ -31,7 +37,7 @@ public class CameraMixin {
             shakeOffset.add(effect.getShakeOffset(player, partialTicks));
         }
 
-        var camera = MC.gameRenderer.getMainCamera();
+        var camera = (Camera) (Object) this;
 
         var inverseRotation = new Quaternionf(camera.rotation()).conjugate();
 
@@ -53,7 +59,7 @@ public class CameraMixin {
         if (shakeOffset.lengthSquared() > 0) {
             shakeOffset.rotate(inverseRotation);
 
-            camera.move(-shakeOffset.z(), shakeOffset.y(), shakeOffset.x());
+            move(-shakeOffset.z(), shakeOffset.y(), shakeOffset.x());
         }
     }
 }

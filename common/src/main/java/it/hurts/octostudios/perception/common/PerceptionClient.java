@@ -17,14 +17,19 @@ public class PerceptionClient {
 
         for (var entry : ConfigRegistry.TRAIL_CONFIG.getEntityTrails().entrySet()) {
             var key = entry.getKey();
-            var data = entry.getValue();
-
             var type = entities.get(key);
 
             if (type == null || type.isEmpty())
                 continue;
 
-            EntityTrailRegistry.registerProvider(type.get().value(), entity -> (EntityTrailProvider) TrailProviderFactory.create(entity, data));
+            EntityTrailRegistry.registerProvider(type.get().value(), entity -> {
+                var data = ConfigRegistry.TRAIL_CONFIG.getEntityTrails().get(key);
+
+                if (data == null)
+                    return null;
+
+                return (EntityTrailProvider) TrailProviderFactory.create(entity, data);
+            });
         }
     }
 }

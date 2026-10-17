@@ -22,6 +22,8 @@ public class PerceptionConfigData extends ShatterConfig {
     private boolean enabledShakesModule = true;
     @Comment("Enables or disables the entities/particles trails module.")
     private boolean enabledTrailsModule = true;
+    @Comment("Enables or disables the chromatic aberration module.")
+    private boolean enabledChromaticAberrationModule = true;
 
     @Override
     public String getName() {

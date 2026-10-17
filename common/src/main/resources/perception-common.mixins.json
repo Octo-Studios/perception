@@ -2,12 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "it.hurts.octostudios.perception.common.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
     "shakes.PlayerMixin"
   ],
   "client": [
     "TitleScreenMixin",
+    "chromatic_aberration.ClientLevelMixin",
     "shakes.AbstractClientPlayerMixin",
     "shakes.CameraMixin",
     "shakes.ClientLevelMixin",
