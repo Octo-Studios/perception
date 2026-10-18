@@ -22,6 +22,7 @@ public class ConfigRegistry {
         ConfigManager.register(Perception.MODID, TRAIL_CONFIG);
         ConfigManager.register(Perception.MODID, CHROMATIC_ABERRATION_CONFIG);
 
+        PERCEPTION_CONFIG.load(ShatterLibServices.platform().getConfigDirectory(), true);
         SHAKE_CONFIG.load(ShatterLibServices.platform().getConfigDirectory(), true);
         TRAIL_CONFIG.load(ShatterLibServices.platform().getConfigDirectory(), true);
         CHROMATIC_ABERRATION_CONFIG.load(ShatterLibServices.platform().getConfigDirectory(), true);

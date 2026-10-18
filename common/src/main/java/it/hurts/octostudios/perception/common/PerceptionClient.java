@@ -23,6 +23,9 @@ public class PerceptionClient {
                 continue;
 
             EntityTrailRegistry.registerProvider(type.get().value(), entity -> {
+                if (!ConfigRegistry.PERCEPTION_CONFIG.isEnabledTrailsModule())
+                    return null;
+
                 var data = ConfigRegistry.TRAIL_CONFIG.getEntityTrails().get(key);
 
                 if (data == null)
